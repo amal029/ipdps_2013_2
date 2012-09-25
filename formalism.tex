@@ -1,0 +1,101 @@
+\section{Notations and formalization of the problem statement}
+\label{sec:relat-notat-form}
+
+The overall application partitioning problem onto a heterogeneous
+execution architecture can formulated in terms of a graph partitioning
+problem. Given two graphs, the task-graph representing the application
+and the resource-graph representing the underlying topology. How does
+one map the task-graph onto the resource-graph.
+
+
+\subsection{Formalizing the task-graph}
+\label{sec:form-task-graph}
+
+A task-graph is a graph weighted directed graph $G_t(V_t,E_t)$, such
+that each vertex $V_t$ is an execution node in the application, and
+\mbox{$E_t \subseteq (V_t \times V_t)$}, shows the communication edges
+between the vertices. Each vertex $V_t$ is decorated with weights:
+$w^t_0(i), \forall i \in V_t$ and $w^t_1(i), \forall i \in V_t$. Weight
+$w^t_0$ is a function on some vertex $i \in V_t$, that maps the number
+of instructions to be carried out at node $i$ to an integer
+value. Similarly, $w^t_1$ is a function on some vertex $i \in V_t$ that
+maps the vector length that is required by the node $i$ again to an
+integer value. Each edge is decorated by a weight $w^e(e), \forall e \in
+(V_t \times V_t)$. Weight $w^e$ represents the number of bytes that need
+to be transfered from the location of the data-store ($i$) to the
+utilization node ($j$).
+
+
+\subsection{Formalizing the resource graph}
+\label{sec:form-reso-graph}
+
+The system resources are represented by a weighted undirected graph
+$G_r(V_r,C_r)$. Where $V_r$ represents a processing element in the
+underlying resource graph, while the edge $C_r \subseteq (V_r \times
+V_r)$, represents the communication links. Each vertex is decorated with
+a weights $W^r_0(i)$ and $W^r_1(i), \forall i \in V_r$, which map the
+\textit{Million Instructions Per Second} (MIPS) count of the vertex to
+an integer value, and the vector capacity of that vertex again to an
+integer domain, respectively. Every, communication link is weighted with
+the bandwidth capacity denoted by $W^c(c), \forall c \in (V_r \times
+V_r)$.
+
+\subsection{Formalizing the objective: the latency of the application}
+\label{sec:form-latency-appl}
+
+The total application latency in a parallel setting is the addition of
+the computation time and the communication time. Given some application
+node $i \in V_t$ mapped to some resource $j \in V_r$. The latency for
+that node is computed as: $((w^t_1(i)/W^r_1(j)\times w^t_0(i))/W^r_0(c))
++ (w^e(e)/W^c(c)) | e = (i,k), k \neq i, \forall k \in V_t, c = (j,l), l
+\neq j, \forall l \in V_r $. In this formulation for some given
+task-graph node $i$, we first calculate the number of vectorized
+instructions that can be performed in parallel (by diving the required
+vector length with the vector capacity of the resource node), this gives
+us the total number of vector instructions that would be performed on
+the resource node $j$. Next, we multiply the number of vector
+instructions to be performed by the number of iterative (non-vectorized)
+instructions required, this in turn gives us the total number of
+instructions to be performed by that task-graph node. Finally, we find
+the computation latency by divining this total number of instructions
+with the MIPS value of the resource vertex. The communication on the
+other hand is a quite simple, we calculate the communication latency, by
+dividing the number of required bits to be transfered by the bandwidth
+of the resource.
+
+Given the task-graph and the resource-graph, let $\zeta$ be all possible
+mappings of the application on the resource-graph. For a particular
+mapping $\mathcal{M}$ defined as $\zeta_\mathcal{M}$ on some resource $s
+\in V_r$ the mapping latency is defined as:
+
+\begin{equation}
+  \begin{array}{c}
+    Latency^{\zeta_\mathcal{M}}_s = \\
+    \\
+    \sum_{\forall i \in V_t \wedge
+      \zeta_\mathcal{M} = s} ((w^t_1(i)/W^r_1(s)\times w^t_0(i))/W^r_0(c))
+    \\
+    +
+    \\
+    \sum_{\forall i \in V_t \wedge
+      \zeta_\mathcal{M} = s} w^e(e) / W^c(c)\\ 
+    s.t., e = (i,k), k \neq i, \forall k
+    \in V_t \wedge\  c = (s,l), l \neq s, \forall l \in V_r
+  \end{array}
+  \label{eq:1}
+\end{equation}
+
+Finally, the complete application latency can then be defined as: 
+\begin{equation}
+  \label{eq:2}
+  Latency^{\zeta_\mathcal{M}} = max_{s}
+  ({Latency^{\zeta_\mathcal{M}}_s}), \forall s \in V_t
+\end{equation}
+
+The objective of our framework is to minimize the total application
+latency as described in Equation~(\ref{eq:2}).
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "bare_conf"
+%%% End: 

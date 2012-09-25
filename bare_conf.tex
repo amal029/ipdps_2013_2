@@ -1,4 +1,4 @@
-
+% -*- mode:latex; mode:flyspell -*-
 %% bare_conf.tex
 %% V1.3
 %% 2007/01/11
@@ -127,7 +127,7 @@
 % *** GRAPHICS RELATED PACKAGES ***
 %
 \ifCLASSINFOpdf
-  % \usepackage[pdftex]{graphicx}
+  \usepackage[pdftex]{graphicx}
   % declare the path(s) where your graphic files are
   % \graphicspath{{../pdf/}{../jpeg/}}
   % and their extensions so you won't have to specify these with
@@ -252,7 +252,7 @@
 
 
 % *** SUBFIGURE PACKAGES ***
-%\usepackage[tight,footnotesize]{subfigure}
+\usepackage[tight,footnotesize]{subfigure}
 % subfigure.sty was written by Steven Douglas Cochran. This package makes it
 % easy to put subfigures in your figures. e.g., "Figure 1a and 1b". For IEEE
 % work, it is a good idea to load it with the tight package option to reduce
@@ -352,7 +352,8 @@
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{Bare Demo of IEEEtran.cls for IEEECS Conferences}
+\title{An improved simulated annealing heuristic for partitioning
+  heterogeneous applications onto heterogeneous architectures}
 
 
 % author names and affiliations
@@ -408,12 +409,34 @@ line 4: Email: name@xyz.com}
 
 
 \begin{abstract}
-The abstract goes here. DO NOT USE SPECIAL CHARACTERS, SYMBOLS, OR MATH IN YOUR TITLE OR ABSTRACT.
+
+  In this paper we present a simulated annealing based partitioning
+  technique for heterogeneous applications onto heterogeneous processing
+  architectures. A heterogeneous application is one where tasks differ
+  in the amount of computation and communication that they perform. A
+  heterogeneous architecture on the other hand, is a composition of
+  processing elements that differ in their capabilities to perform
+  computation and communication. Such applications are very common and
+  heterogeneous architectures are becoming more common in today's
+  environment. Task partitioning onto homogeneous architectures in-order
+  to extract parallelism, is a known NP-hard problem. Heterogeneity
+  exponentially complicates the aforementioned partitioning problem. A
+  number of heuristic approaches have been proposed for heterogeneous
+  partitioning some using simulated annealing, to overcome the NP-hard
+  nature of the problem. The novelty of our approach is two fold: (1) we
+  go a step further than the currently proposed scientific literature,
+  considering heterogeneity at levels of: task parallelism, data
+  parallelism, and communication. (2) We quantitatively show an
+  improvement in the simulated annealing algorithm, both in terms of
+  runtime and resulting application latencies, provided the neighbors in
+  the simulated annealing strategy are guided with the temperature
+  rather than being selected randomly as is the established case.
+
 
 \end{abstract}
 
 \begin{IEEEkeywords}
-component; formatting; style; styling;
+Simulated annealing, partitioning, heterogeneous architectures.
 
 \end{IEEEkeywords}
 
@@ -431,158 +454,258 @@ component; formatting; style; styling;
 
 
 \section{Introduction}
-% no \IEEEPARstart
-This demo file is intended to serve as a ``starter file''
-for IEEE conference papers produced under \LaTeX\ using
-IEEEtran.cls version 1.7 and later.
 
-All manuscripts must be in English. These guidelines include complete descriptions of the fonts, spacing, and related information for producing your proceedings manuscripts. Please follow them and if you have any questions, direct them to the production editor in charge of your proceedings at Conference Publishing Services (CPS): Phone +1 (714) 821-8380 or Fax +1 (714) 761-1784.
-% You must have at least 2 lines in the paragraph with the drop letter
-% (should never be an issue)
+% Forthcoming systems are going to be \textit{Multi-Processor System on
+%   Chip} (MpSoC) consisting of a heterogeneous mix of cores such as CPUs,
+% GPUs, hardware acceleration units, etc. Examples of such systems are:
+% ARM Cortex-A9, AMD Zacate, and STMicroelectronics P2012
+% platforms~\cite{cortex9a,zacate,lben10}. 
 
-\subsection{Subsection Heading Here}
-Subsection text here.
+% On the one hand hardware industry is overcoming Moore's law by moving to
+% very large scale multi-processor systems, on the other hand software
+% design is playing catchup. Programming simple multi-core systems using
+% the traditional threading model is considered hard~\cite{elee06}. 
 
+% The exponentially growing number of heterogeneous multi-core systems, in
+% hand-held devices, desktops, server farms, etc, exacerbates the problem
+% of extracting parallelism from such hardware, exponentially. A number of
+% different programming paradigms have been proposed to overcome this lack
+% in designer productivity. Two of the most promising techniques are:
+% stream based programming~\cite{elee871}, which generalizes the Kahn
+% process networks~\cite{gkan74}. CUDA~\cite{jsan10} and
+% OpenCL~\cite{opencl08}, both targeted at GPUs follow the streaming model
+% of computation. The other popular approach to programming large
+% multi-core systems is mixing OpenMp~\cite{qmic04} with vectorization
+% techniques automatically extracted from the traditional C programs using
+% techniques such as the Polytope model~\cite{mgri98}. The second
+% alternative is used in GCC and LLVM compiler infrastructures.
 
-\subsubsection{Subsubsection Heading Here}
-Subsubsection text here.
+% While the streaming approach provides programming level tools (usually
+% in the form of pragmas or new programming languages) for the software
+% designer to exploit parallelism. The compiler approach tries to
+% automatically extract parallelism from the given application. Both these
+% approaches have advantages and disadvantages. But, they both share a few
+% points in common: (1) The streaming and the OpenMp approaches both
+% exhibit task parallelism. Task-parallelism is the form of parallelism
+% most commonly exploited by programmers on \textit{Multiple Instruction
+%   Multiple Data} (MIMD) architectures. (2) Streaming like vectorization
+% also exhibits data-parallelism, which is most suited for \textit{Single
+%   Instruction Multiple data} (SIMD) architectures such as GPUs or vector
+% units on a CPU. (3) Multi-core processors exhibit the phenomenon of
+% \textit{Non Uniform Memory Access} (NUMA), which needs to be considered
+% when exploiting the aforementioned forms of parallelism. NUMA
+% essentially requires the designers and compiler writers to consider the
+% placement of data when partitioning the application. The data-placement
+% problem is further exacerbated with the problem of caches, and latencies
+% of memory transfers between differing processing elements, especially
+% hosts and devices connecting CPUs and GPUs.
 
-\section{Type style and Fonts}
-Wherever Times is specified, Times Roman or Times New Roman may be used. If neither is available on your system, please use the font closest in appearance to Times. Avoid using bit-mapped fonts if possible. True-Type 1 or Open Type fonts are preferred. Please embed symbol fonts, as well, for math, etc.
-
-
-% An example of a floating figure using the graphicx package.
-% Note that \label must occur AFTER (or within) \caption.
-% For figures, \caption should occur after the \includegraphics.
-% Note that IEEEtran v1.7 and later has special internal code that
-% is designed to preserve the operation of \label within \caption
-% even when the captionsoff option is in effect. However, because
-% of issues like this, it may be the safest practice to put all your
-% \label just after \caption rather than within \caption{}.
-%
-% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
-% option should be used if it is desired that the figures are to be
-% displayed while in draft mode.
-%
-%\begin{figure}[!t]
-%\centering
-%\includegraphics[width=2.5in]{myfigure}
-% where an .eps filename suffix will be assumed under latex, 
-% and a .pdf suffix will be assumed for pdflatex; or what has been declared
-% via \DeclareGraphicsExtensions.
-%\caption{Simulation Results}
-%\label{fig_sim}
-%\end{figure}
-
-% Note that IEEE typically puts floats only at the top, even when this
-% results in a large percentage of a column being occupied by floats.
-
-
-% An example of a double column floating figure using two subfigures.
-% (The subfig.sty package must be loaded for this to work.)
-% The subfigure \label commands are set within each subfloat command, the
-% \label for the overall figure must come after \caption.
-% \hfil must be used as a separator to get equal spacing.
-% The subfigure.sty package works much the same way, except \subfigure is
-% used instead of \subfloat.
-%
-%\begin{figure*}[!t]
-%\centerline{\subfloat[Case I]\includegraphics[width=2.5in]{subfigcase1}%
-%\label{fig_first_case}}
-%\hfil
-%\subfloat[Case II]{\includegraphics[width=2.5in]{subfigcase2}%
-%\label{fig_second_case}}}
-%\caption{Simulation results}
-%\label{fig_sim}
-%\end{figure*}
-%
-% Note that often IEEE papers with subfigures do not employ subfigure
-% captions (using the optional argument to \subfloat), but instead will
-% reference/describe all of them (a), (b), etc., within the main caption.
+There are a plethora of different optimization techniques that have been
+proposed for extracting data-parallelism from
+loops~\cite{smuc97,mgri98}. In case of task-parallelism the automatic
+extraction of parallelism has been recently proposed using OpenMP using
+the Polytope model~\cite{mgri98}, while the streaming community
+(repsenting CUDA~\cite{jsan10} and OpenCL~\cite{opencl08}) has its own
+optimization techniques~\cite{mgor06}. Moreover, the design of the
+application heavily influences the potential for parallelism
+extraction. 
 
 
-% An example of a floating table. Note that, for IEEE style tables, the 
-% \caption command should come BEFORE the table. Table text will default to
-% \footnotesize as IEEE normally uses this smaller font for tables.
-% The \label must come after \caption as always.
-%
-%\begin{table}[!t]
-%% increase table row spacing, adjust to taste
-%\renewcommand{\arraystretch}{1.3}
-% if using array.sty, it might be a good idea to tweak the value of
-% \extrarowheight as needed to properly center the text within the cells
-%\caption{An Example of a Table}
-%\label{table_example}
-%\centering
-%% Some packages, such as MDW tools, offer better commands for making tables
-%% than the plain LaTeX2e tabular which is used here.
-%\begin{tabular}{|c||c|}
-%\hline
-%One & Two\\
-%\hline
-%Three & Four\\
-%\hline
-%\end{tabular}
-%\end{table}
+\begin{figure}[h!]
+  \centering
+\begin{verbatim}
+ for (int i=0;i<M; ++i){
+  for (int j=0;j<N; ++j){
+   1: A[i][j] = (i*j+4.0/N)
+   2: B[i][j] = (i*j+9.0/N)
+  }
+ }
+\end{verbatim}
+  \caption{Example C source code, filling in two matrices in a stencil
+    computation}
+  \label{fig:1}
+\end{figure}
+
+Consider the simple code snippet shown in Figure~\ref{fig:1}. This code
+snippet can be re-written to extract task-parallelism as shown in
+Figure~\ref{fig:2}. The two nested for loops (once fissed) can now be
+carried out on two different processor cores. We define task-parallel
+processes as either nodes that consist of complex computations, but are
+independent of each other. Or as loops that consists of a series of
+statements that are independent.
+
+\begin{figure}[h!]
+  \centering
+\begin{verbatim}
+for (int i=0;i<M;++i)
+ for (int j=0;j<N;++j)
+  A[i][j] = i*j+4.0/N
+
+for (int i=0;i<M;++i)
+ for (int j=0;j<N;++j)
+  B[i][j] = i*j+9.0/N
+\end{verbatim}
+  
+  \caption{Fissed loops to extract task-parallelism}
+  \label{fig:2}
+\end{figure}
+
+Similarly, one can also extract data-parallelism by further modifying
+Figure~\ref{fig:2}, as shown in Figure~\ref{fig:3}. As seen in
+Figure~\ref{fig:3}, the assignment to \texttt{A} and \texttt{B} are
+carried out in parallel using different cores, but, while the assignment
+to \texttt{A} is carried out in a vector instruction for the just the
+inner loop, for \texttt{B}, both the loops are collapsed, and the
+vectorization is carried out in a single go. The two options chosen
+depend upon the underlying architecture. The size of the caches and the
+size of underlying vector length. Optimizations can be performed further
+still on Figure~\ref{fig:3}, such as loop unrolling or loop interchange.
+
+\begin{figure}[h!]
+  \centering
+\begin{verbatim}
+for (int i=0;i<M;++i)
+//inner loop vectorization
+  A[i][0:N-1] = i*[0:N-1]+4.0/N
+
+// Loop collapsed vectorization
+  B[0:M-1][0:N-1] = [0:M-1]*[0:N-1]+9.0/N
+\end{verbatim}
+
+  \caption{Data and task parallel for loops}
+  \label{fig:3}
+\end{figure}
+
+Different parts of the applications can exhibit differing task and
+data-parallel potentials. Furthermore, the amount of communication
+between these differing parts might vary itself. Given a heterogeneous
+architecture consisting of processing elements with varying vector
+lengths, varying processing capacity and connected via differing
+bandwidths/latencies, how does one compile or even design the program to
+actually utilize the underlying hardware properly? This is the question
+we are trying to answer in this paper. We provide an improved simulated
+annealing approach to solving this problem. Our key contributions in
+this paper are:
+
+\begin{itemize}
+\item A Simulated annealing approach to tuning programs for task and
+  data parallelism across heterogeneous multi-core architectures.
+\item An improvement in the simulated annealing algorithm, which
+  empirically shows that the resulting partitions have smaller execution
+  times.
+\end{itemize}
 
 
-% Note that IEEE does not put floats in the very first column - or typically
-% anywhere on the first page for that matter. Also, in-text middle ("here")
-% positioning is not used. Most IEEE journals/conferences use top floats
-% exclusively. Note that, LaTeX2e, unlike IEEE journals/conferences, places
-% footnotes above bottom floats. This can be corrected via the \fnbelowfloat
-% command of the stfloats package.
+\section{Related Work}
+\label{sec:related-work}
 
+There has been tremendous advances in compiler design for loop
+optimizations~\cite{ubon08,atiw09,tkis00}. The tiles of loop sizes, the
+unroll factor, etc, have been studied using a plethora of heuristic
+techniques, including simulated annealing. Tiwari et.al.~\cite{atiw09},
+describe an auto-tuning compiler, which iteratively solves the loop
+tiling problem. They along with others~\cite{tkis00} have also looked at
+loop unrolling and blocking and jamming techniques to extract vectorized
+parallelism. Overall, we have found their techniques to be quite
+effective in real-world applications. What, this optimization literature
+does not address is the problem of compiler optimizations for a
+heterogeneous processing architecture. Furthermore, the researchers have
+also not addressed the problem of extracting a combination of task and
+data-parallelism as described in the previous section. 
 
+On the other hand we have the streaming and task distribution community,
+who have started probing the problem of partitioning and task
+distribution~\cite{ssan05,adou04,pcar09} onto heterogeneous processing
+architecture. The streaming community especially recognizes the need to
+extract both task and data-parallelism (which corresponds to loop level
+parallelism)~\cite{mgor06}. Knowing that the task partitioning problem
+is known NP-hard, the researchers take a heuristic approach.  But, yet
+again, the streaming community seems to not make a connection between
+the polyhedral compiler optimization community and itself. In this paper
+we bridge the gap between the two optimization techniques, thereby
+leading to a powerful optimization framework, which can be used by
+compiler writers or application designers to explore a heterogeneous
+search space.
+
+% It is expected that these MpSoCs would play a significant role in the
+% hand held device industry, mostly for the (soft) real-time applications
+% such as voice recognition, video and audio capture, decoding, and
+% playback. Software compilation techniques for such complex MPSoCs is
+% largely lagging behind the developments in hardware. Application
+% developers still distribute and schedule threads onto these multi-core
+% systems by hand, which is a time consuming process and leads to low
+% designer productivity. It is expected that the research community would
+% play an important role in providing the state of the art
+% \textit{automated} compilation support for these large heterogeneous
+% MPSoCs in order to increase the designer productivity and fasten the
+% time to market.
+
+% A number of applications running on these hand-held devices exhibit
+% heterogeneity themselves. We define heterogeneity in the applications as
+% differing computation and communication requirements. Consider the a 
+
+% The aforementioned signal processing applications can be characterized
+% using the \textit{Static Data Flow} (SDF) model~\cite{wthi02}, where
+% data flows from one filter to the next. The streaming model has been
+% shown to be a nice fit for \textit{Single Instruction Multiple Data}
+% (SIMD), \textit{Multiple Instruction Multiple Data} (MIMD)
+% architectures~\cite{iban04,cilk_plus_plus,mgor06}. This resurgence in
+% the SIMD and MIMD processors (GPUs, IBM CELL, etc) has rekindled the
+% scientific community, which in turn has led to significant research
+% interest in compilation of SDF graphs onto these
+% architectures~\cite{fsar11,mkud08,mgor06,audu09,pcar09}.
+
+% Another very important aspect that is unanswered in the current
+% literature is scheduling models for cyclic SDF graphs. Although one
+% might argue that cycles do not occur often in stream graphs, it is
+% obvious that most \textit{smart} applications need some kind of feedback
+% control, which translates to cycles within the SDF graphs. Current
+% attempts at incorporating software pipelined execution of SDF graphs,
+% e.g.,~\cite{fsar11}, model software pipelined execution as a bin-packing
+% problem. Bin-packing is not the correct model for cyclic SDF graphs (as
+% will be shown in Section~\ref{sec:part-sdf-graphs}). Other
+% attempts~\cite{rgov02,audu09} at incorporating software pipelined
+% execution of cyclic SDF graphs either ignore cycles encapsulating
+% branches or provide a sub-optimal solution.
+
+% Finally, stateless actors (e.g., \texttt{FFT}) occur often in stream
+% graphs. Extracting parallelism from these stateless actors is
+% non-trivial. A number of research directions have been proposed that can
+% utilize the parallelism hidden inside stateless
+% actors~\cite{fsar11,mkud08,mgor06}. But, none of these approaches
+% provide an optimal solution to this problem, i.e., none of the
+% approaches is able to determine the optimal number of copies that need
+% to be created and run in parallel given a heterogeneous processor
+% architecture. We present an solution to this problem.
+
+\input{formalism}
+
+\input{task_graph}
+
+\input{simulated_annealing}
 
 \section{Conclusion}
-The conclusion goes here. this is more of the conclusion
-
-% conference papers do not normally have an appendix
 
 
-% use section* for acknowledgement
-\section*{Acknowledgment}
+% \section*{Acknowledgment}
 
 
-The authors would like to thank...
-more thanks here
+% The authors would like to thank...
+% more thanks here
 
 
-% trigger a \newpage just before the given reference
-% number - used to balance the columns on the last page
-% adjust value as needed - may need to be readjusted if
-% the document is modified later
-%\IEEEtriggeratref{8}
-% The "triggered" command can be changed if desired:
-%\IEEEtriggercmd{\enlargethispage{-5in}}
-
-% references section
-
-% can use a bibliography generated by BibTeX as a .bbl file
-% BibTeX documentation can be easily obtained at:
-% http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
-% The IEEEtran BibTeX style support page is at:
-% http://www.michaelshell.org/tex/ieeetran/bibtex/
-%\bibliographystyle{IEEEtran}
-% argument is your BibTeX string definitions and bibliography database(s)
-%\bibliography{IEEEabrv,../bib/paper}
-%
-% <OR> manually copy in the resultant .bbl file
-% set second argument of \begin to the number of references
-% (used to reserve space for the reference number labels box)
-\begin{thebibliography}{1}
-
-\bibitem{IEEEhowto:kopka}
-H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
-
-\end{thebibliography}
-
-
-
+\scriptsize{
+\bibliographystyle{IEEEtran}
+% \bibliography{latex8}
+\bibliography{/Users/amal029/Dropbox/BIBLIOGRAPHY_DATABASE/main_bib.bib}
+}
 
 % that's all folks
 \end{document}
 
 
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

@@ -1,0 +1,47 @@
+\begin{picture}(0,0)%
+\includegraphics{./figures/jacobi.pdf}%
+\end{picture}%
+\setlength{\unitlength}{3947sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(13130,8888)(2736,-5326)
+\put(12451,-3061){\makebox(0,0)[lb]{\smash{{\SetFigFont{14}{16.8}{\rmdefault}{\bfdefault}{\updefault}{\color[rgb]{0,0,0}tile = 100}%
+}}}}
+\put(7351,-4411){\makebox(0,0)[lb]{\smash{{\SetFigFont{14}{16.8}{\rmdefault}{\bfdefault}{\updefault}{\color[rgb]{0,0,0}S3}%
+}}}}
+\put(6376,1364){\makebox(0,0)[lb]{\smash{{\SetFigFont{14}{16.8}{\rmdefault}{\bfdefault}{\updefault}{\color[rgb]{0,0,0}A}%
+}}}}
+\put(8851,3089){\makebox(0,0)[lb]{\smash{{\SetFigFont{14}{16.8}{\rmdefault}{\bfdefault}{\updefault}{\color[rgb]{0,0,0}Start}%
+}}}}
+\put(5026,239){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\bfdefault}{\updefault}{\color[rgb]{0,0,0}S1\_1}%
+}}}}
+\put(9001,239){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\bfdefault}{\updefault}{\color[rgb]{0,0,0}S1\_n}%
+}}}}
+\put(12451,314){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\bfdefault}{\updefault}{\color[rgb]{0,0,0}S1\_m}%
+}}}}
+\put(14851,839){\makebox(0,0)[lb]{\smash{{\SetFigFont{14}{16.8}{\rmdefault}{\bfdefault}{\updefault}{\color[rgb]{0,0,0}B}%
+}}}}
+\put(10351,-4861){\makebox(0,0)[lb]{\smash{{\SetFigFont{14}{16.8}{\rmdefault}{\bfdefault}{\updefault}{\color[rgb]{0,0,0}S4}%
+}}}}
+\put(5101,-2236){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\bfdefault}{\updefault}{\color[rgb]{0,0,0}S2\_1}%
+}}}}
+\put(9076,-2236){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\bfdefault}{\updefault}{\color[rgb]{0,0,0}S2\_n}%
+}}}}
+\put(12526,-2161){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\bfdefault}{\updefault}{\color[rgb]{0,0,0}S2\_m}%
+}}}}
+\put(12376,-586){\makebox(0,0)[lb]{\smash{{\SetFigFont{14}{16.8}{\rmdefault}{\bfdefault}{\updefault}{\color[rgb]{0,0,0}tile = 18}%
+}}}}
+\put(8851,1139){\makebox(0,0)[lb]{\smash{{\SetFigFont{14}{16.8}{\rmdefault}{\bfdefault}{\updefault}{\color[rgb]{0,0,0}tile = 18}%
+}}}}
+\put(4801,-511){\makebox(0,0)[lb]{\smash{{\SetFigFont{14}{16.8}{\rmdefault}{\bfdefault}{\updefault}{\color[rgb]{0,0,0}tile = 16}%
+}}}}
+\put(4876,-3061){\makebox(0,0)[lb]{\smash{{\SetFigFont{14}{16.8}{\rmdefault}{\bfdefault}{\updefault}{\color[rgb]{0,0,0}tile = 20}%
+}}}}
+\put(9001,-3061){\makebox(0,0)[lb]{\smash{{\SetFigFont{14}{16.8}{\rmdefault}{\bfdefault}{\updefault}{\color[rgb]{0,0,0}tile = 10}%
+}}}}
+\end{picture}%
