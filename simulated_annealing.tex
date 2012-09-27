@@ -14,7 +14,7 @@ but in general considered to be a good approximation of the optimum.
 In general SA is a non-greedy heuristic algorithm which explores the search
 space by moving from a higher temperature to a lower temperature. The algorithm
 always accepts moves to a better solution, determined by evaluating an
-\emph{objective function} and sometimes accpets moves to worse states with a
+\textit{objective function} and sometimes accpets moves to worse states with a
 probability that changes with temperatures. Initially, when the temperature is
 high, the algorithm is more tolerable and accepts moves to worse states with a
 higher probability. As the temperature falls down, this probability decreases
@@ -29,32 +29,71 @@ how this acceptance probability changes with this drop in temperature.
 
 \subsection{From the mapping problem standpoint}
 
-\begin{algorithm}
+\begin{algorithm}[1]
+\caption{$Simulated\_Annealing(\zeta_0, \mathcal{T}_0)$}
+\label{algo:SA}
 \DontPrintSemicolon
-\KwIn{Initial Mapping $\zeta_0$ and Starting Temperature $T_0$}
+\KwIn{Initial Mapping $\zeta_0$ and Starting Temperature $\mathcal{T}_0$}
 \KwOut{Best Mapping $\zeta_{best}$}
-\begin{algorithmic}[1]
 $\zeta \leftarrow \zeta_0$ \\
 $C \leftarrow OBJECTIVE\_FUNCTION(\zeta_0)$ \\
 $\zeta_{best} \leftarrow \zeta$
 $C_{best} \leftarrow C$
-
-\caption{$Simulated\_Annealing(\zeta_0, T_0)$}
-\label{algo:SA}
-\end{algorithmic}
 \end{algorithm}
 
-Figure~\ref{algo:SA} represents the pseudocode for our algorithm. We begin by
+Algorithm~\ref{algo:SA} represents the pseudocode for our algorithm. We begin by
 choosing some initial starting point for our state space exploration, which from
 the mapping problem standpoint is some initial mapping of tasks from $V_t$ to
 PEs $V_r$. We choose our initial mapping to be all tasks from $V_t$ mapped onto
 some random PE $j \in V_r$. This is a good idea because we have observed that
 this puts tightly coupled tasks, i.e. tasks that communicate heavily, on the
 same PE since moving them onto different PEs would incur more costs and would thus
-lead to a bad state. 
+lead to a bad state.
+
+The \textit{OBJECTIVE\_FUNCTION} evaluates the latency of execution of the
+mapping $\zeta$ on $V_r$ as described earlier in
+Section~\ref{problem-definition}. $\zeta_0$ is the initial mapping chosen as
+discussed in the previous paragraph, $\mathcal{T}_0$ is the starting
+temperature of the annealing process and $\zeta_{current}$ and $T_{current}$ are
+the current mapping and temperature respectively. $\zeta_{new}$ is the next
+mapping as prescribed by the \mbox{\textit{NEXT\_STATE($\zeta_{current}$,
+$T_{current}$)}} function and $\mathcal{C}_{new}$ is the cost of the new mapping
+as evaluated by \textit{OBJECTIVE\_FUNCTION($\zeta_{new}$)}. $\mathcal{T}$
+changes according to the \textit{NEXT\_TEMPERATURE} which is defined in the
+coming section.
+
+The \textit{NEXT\_STATE} function, which is one of the contributions of this
+paper, is defined in the coming section. \textit{RAND} returns a value between
+$[0, 1)$ which is then compared with the value returned by
+\textit{ACCEPTANCE\_PROBABILITY}. We choose to accept a worse state based on
+these two values.
 
 \subsection{Parameter Selection}
+The quality of the final solution entirely depends on the selection of values
+for the parameters of interest. This configures the annealing schedule and the
+acceptance probability and move functions.
 
+We use the value for the initial and final temperature for the annealing
+schedule from the paper written by Heikki et al.~\ref{parameters-SA}. 
+
+The initial temperature $\mathcal{T}_0$ of the annealing schedule is selected as follows,
+\begin{equation}
+\mathcal{T}_0 = \frac{kt_{max}}{t_{minsum}}
+\end{equation}
+where $t_{max}$ is the maximum execution time for any task $t_i \in V_t$ on any
+PE $r_j \in V_r$ and $t_{minsum}$ is the sum of execution time of all tasks $\in
+V_t$ on the fastest PE $r_{fastest} \in V_r$.
+
+The final temperature of the annealing schedule is selected as follows,
+\begin{equation}
+\mathcal{T}_f = \frac{t_{min}}{kt_{maxsum}}
+\end{equation}
+where $t_{min}$ is the minimum execution time for any task$t_i \in V_t$ on any
+PE $r_j \in V_r$ and $t_{maxsum}$ is the sum of execution time of all tasks $\in
+V_t$ on the slowest PE $r_{slowest} \in V_r$. In both the cases, $k$ is a
+constant and $k=1$ is suitable for all our experiments.
+
+Since the objective of this article is to map heterogeneous applications onto heterogeneous architectures, these heuristics have to be changed as well. When we  
 
 %%% Local Variables: 
 %%% mode: latex
