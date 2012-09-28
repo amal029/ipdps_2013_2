@@ -46,22 +46,22 @@ V_r)$.
 The total application latency in a parallel setting is the addition of
 the computation time and the communication time. Given some application
 node $i \in V_t$ mapped to some resource $j \in V_r$. The latency for
-that node is computed as: $((w^t_1(i)/W^r_1(j)\times w^t_0(i))/W^r_0(c))
-+ (w^e(e)/W^c(c)) | e = (i,k), k \neq i, \forall k \in V_t, c = (j,l), l
-\neq j, \forall l \in V_r $. In this formulation for some given
-task-graph node $i$, we first calculate the number of vectorized
-instructions that need to be performed (by diving the required vector
-length with the vector capacity of the resource node), this gives us the
-total number of vector instructions that would be performed on the
-resource node $j$. Next, we multiply the number of vector instructions
-to be performed by the number of iterative (non-vectorized) instructions
-required, this in turn gives us the total number of instructions to be
-performed by that task-graph node. Finally, we find the computation
-latency by divining this total number of instructions with the MIPS
-value of the resource vertex. The communication on the other hand is a
-quite simple, we calculate the communication latency, by dividing the
-number of required bits to be transfered by the bandwidth of the
-resource.
+that node is computed as: $((w^t_1(i)/W^r_1(j)\times
+w^t_0(i))/W^r_0(c))+ (w^e(e)/W^c(c)) | e = (i,k), k \neq i, \forall k
+\in V_t, c = (j,l), l \neq j, \forall l \in V_r $. In this formulation
+for some given task-graph node $i$, we first calculate the number of
+vectorized instructions that need to be performed (by diving the
+required vector length with the vector capacity of the resource node),
+this gives us the total number of vector instructions that would be
+performed on the resource node $j$. Next, we multiply the number of
+vector instructions to be performed by the number of iterative
+(non-vectorized) instructions required, this in turn gives us the total
+number of instructions to be performed by that task-graph node. Finally,
+we find the computation latency by divining this total number of
+instructions with the MIPS value of the resource vertex. The
+communication on the other hand is a quite simple, we calculate the
+communication latency, by dividing the number of required bits to be
+transfered by the bandwidth of the resource.
 
 Given the task-graph and the resource-graph, let $\zeta$ be all possible
 mappings of the application on the resource-graph. For a particular

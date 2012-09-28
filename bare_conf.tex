@@ -128,6 +128,7 @@
 %
 \ifCLASSINFOpdf
   \usepackage[pdftex]{graphicx}
+  \usepackage{color}
   % declare the path(s) where your graphic files are
   % \graphicspath{{../pdf/}{../jpeg/}}
   % and their extensions so you won't have to specify these with
@@ -193,7 +194,8 @@
 \usepackage{algorithm2e}
 % *** SPECIALIZED LIST PACKAGES ***
 %
-%\usepackage{algorithmic}
+\usepackage{algorithmic}
+% \usepackage{program}
 % algorithmic.sty was written by Peter Williams and Rogerio Brito.
 % This package provides an algorithmic environment fo describing algorithms.
 % You can use the algorithmic environment in-text or within a figure
@@ -682,6 +684,8 @@ search space.
 
 \input{task_graph}
 
+\input{resource_graph}
+
 \input{simulated_annealing}
 
 \section{Experiments and Results}
@@ -699,14 +703,17 @@ al.~\cite{CIRRLET}. They adapt the well-known \textit{Best First Decreasing
 \textit{Adapted BFD (A-BFD)} heuristic which works for heterogeneous bins. A
 small gist of the algorithm is as follows.
 
-Let $\mathcal{I}$ be the items to be accommodated into the bins and let $\mathcal{K}$ be the set of bins available.
-From the standpoint of the mapping problem, $\mathcal{I}$ refers to the set of
-application-tasks($V_t$) and $\mathcal{K}$ refers to the resources($V_r$). Similar to
-the Knapsack problem~\cite{knapsack}, by which A-BFD is inspired, each
-element $i \in \mathcal{I}, \mathcal{K}$ has two constraints on them represented
-by $c_i$(cost) and $V_i$(volume). Right off the bat, this seems to be a significant 
-advantage, our framework has over heterogeneous bin packing, as \textit{A-BFD} only
-works with two constraints whereas our framework poses no such restrictions.
+Let $\mathcal{I}$ be the items to be accommodated into the bins and let
+$\mathcal{K}$ be the set of bins available.  From the standpoint of the
+mapping problem, $\mathcal{I}$ refers to the set of
+application-tasks($V_t$) and $\mathcal{K}$ refers to the
+resources($V_r$). Similar to the Knapsack problem~\cite{knapsack}, by
+which A-BFD is inspired, each element $i \in \mathcal{I}, \mathcal{K}$
+has two constraints on them represented by $c_i$(cost) and
+$V_i$(volume). Right off the bat, this seems to be a significant
+advantage, our framework has over heterogeneous bin packing, as
+\textit{A-BFD} only works with two constraints whereas our framework
+poses no such restrictions.
 
 \textit{A-BFD} proceeds to sort $\mathcal{I}$ according to non-increasing order
 of their volume and sorts $\mathcal{K}$ according to non-increasing order of the

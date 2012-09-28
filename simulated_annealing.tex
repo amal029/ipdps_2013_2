@@ -1,57 +1,59 @@
 \section{Simulated annealing}
 \label{sec:simulated-annealing}
 
-Simulated Annealing~\cite{kirkpatrick} is a generic probabilistic algorithm for
-finding the global optimum of a given function,
-$\mathcal{F}:\mathcal{R}\rightarrow\mathcal{R}$, which has a large search space.
-Simulated Annealing in most of the cases is cheaper than exhaustive enumeration,
-which is exhaustively listing the entire search space. Since it is a monte carlo
-method it will always terminate and the solution need not be the most optimal
-but in general considered to be a good approximation of the optimum.
+Simulated Annealing~\cite{kirkpatrick} is a generic probabilistic
+algorithm for finding the global optimum of a given function,
+$\mathcal{F}:\mathcal{R}\rightarrow\mathcal{R}$, which has a large
+search space.  Simulated Annealing in most of the cases is cheaper than
+exhaustive enumeration, which is exhaustively listing the entire search
+space. Since it is a monte carlo method it will always terminate and the
+solution need not be the most optimal but in general considered to be a
+good approximation of the optimum.
 
 \subsection{Overview}
 
-In general SA is a non-greedy heuristic algorithm which explores the search
-space by moving from a higher temperature to a lower temperature. The algorithm
-always accepts moves to a better solution, determined by evaluating an
-\emph{objective function} and sometimes accpets moves to worse states with a
-probability that changes with temperatures. Initially, when the temperature is
-high, the algorithm is more tolerable and accepts moves to worse states with a
-higher probability. As the temperature falls down, this probability decreases
-and the alogrithm is less tolerant towards solutions with a worse value for the
-objective function.
+In general SA is a non-greedy heuristic algorithm which explores the
+search space by moving from a higher temperature to a lower
+temperature. The algorithm always accepts moves to a better solution,
+determined by evaluating an \emph{objective function} and sometimes
+accpets moves to worse states with a probability that changes with
+temperatures. Initially, when the temperature is high, the algorithm is
+more tolerable and accepts moves to worse states with a higher
+probability. As the temperature falls down, this probability decreases
+and the alogrithm is less tolerant towards solutions with a worse value
+for the objective function.
 
-This is the reason why SA is not a purely greedy algorithm as it accepts moves
-to bad states with some probability which enables it to move out of local
-maximas\/minimas. But the algorithm becomes more greedier as the temperature
-decreases. Figure~\ref{fig:temperature_drop} shows how the temperature drops and
-how this acceptance probability changes with this drop in temperature.
+This is the reason why SA is not a purely greedy algorithm as it accepts
+moves to bad states with some probability which enables it to move out
+of local maximas\/minimas. But the algorithm becomes more greedier as
+the temperature decreases. Figure~\ref{fig:temperature_drop} shows how
+the temperature drops and how this acceptance probability changes with
+this drop in temperature.
 
 \subsection{From the mapping problem standpoint}
 
 \begin{algorithm}
-\DontPrintSemicolon
-\KwIn{Initial Mapping $\zeta_0$ and Starting Temperature $T_0$}
-\KwOut{Best Mapping $\zeta_{best}$}
-\begin{algorithmic}[1]
-$\zeta \leftarrow \zeta_0$ \\
-$C \leftarrow OBJECTIVE\_FUNCTION(\zeta_0)$ \\
-$\zeta_{best} \leftarrow \zeta$
-$C_{best} \leftarrow C$
-
-\caption{$Simulated\_Annealing(\zeta_0, T_0)$}
-\label{algo:SA}
-\end{algorithmic}
+  \DontPrintSemicolon
+  \KwIn{Initial Mapping $\zeta_0$ and Starting Temperature $T_0$}
+  \KwOut{Best Mapping $\zeta_{best}$}
+    $\zeta \leftarrow \zeta_0$\;
+    $C \leftarrow OBJECTIVE\_FUNCTION(\zeta_0)$\;
+    $\zeta_{best} \leftarrow \zeta$\;
+    $C_{best} \leftarrow C$\;
+    \Return $\zeta_{best}$
+  \caption{$Simulated\_Annealing(\zeta_0, T_0)$}
+  \label{algo:SA}
 \end{algorithm}
 
-Figure~\ref{algo:SA} represents the pseudocode for our algorithm. We begin by
-choosing some initial starting point for our state space exploration, which from
-the mapping problem standpoint is some initial mapping of tasks from $V_t$ to
-PEs $V_r$. We choose our initial mapping to be all tasks from $V_t$ mapped onto
-some random PE $j \in V_r$. This is a good idea because we have observed that
-this puts tightly coupled tasks, i.e. tasks that communicate heavily, on the
-same PE since moving them onto different PEs would incur more costs and would thus
-lead to a bad state. 
+Figure~\ref{algo:SA} represents the pseudocode for our algorithm. We
+begin by choosing some initial starting point for our state space
+exploration, which from the mapping problem standpoint is some initial
+mapping of tasks from $V_t$ to PEs $V_r$. We choose our initial mapping
+to be all tasks from $V_t$ mapped onto some random PE $j \in V_r$. This
+is a good idea because we have observed that this puts tightly coupled
+tasks, i.e. tasks that communicate heavily, on the same PE since moving
+them onto different PEs would incur more costs and would thus lead to a
+bad state.
 
 \subsection{Parameter Selection}
 
