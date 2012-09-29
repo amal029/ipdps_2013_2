@@ -689,25 +689,25 @@ search space.
 \input{simulated_annealing}
 
 \section{Experiments and Results}
-We show the speedup obtained using our improved heuristics against the conventional
-heuristics for Simulated Annealing as prescribed by~\cite{heikki}. We also
-compare the results we obtain against the heterogeneous bin packing algorithm as
-explained below. 
+We show the speedup obtained using our improved heuristics against the
+conventional heuristics for Simulated Annealing as prescribed
+by~\cite{hors06}. We also compare the results we obtain against the
+heterogeneous bin packing algorithm as explained below.
 
 \subsection{Heterogeneous Bin Packing}
 
-To determine how good our framework we compare it against an adaptation of the
-well known heterogeneous bin packing solutions as discussed by Teodor et
-al.~\cite{CIRRLET}. They adapt the well-known \textit{Best First Decreasing
-(BFD)} heuristic, which works only for homogeneous bins, to form the
-\textit{Adapted BFD (A-BFD)} heuristic which works for heterogeneous bins. A
-small gist of the algorithm is as follows.
+To determine how good our framework we compare it against an adaptation
+of the well known heterogeneous bin packing solutions as discussed by
+Teodor et al.~\cite{mmar11}. They adapt the well-known \textit{Best
+  First Decreasing (BFD)} heuristic, which works only for homogeneous
+bins, to form the \textit{Adapted BFD (A-BFD)} heuristic which works for
+heterogeneous bins. A small gist of the algorithm is as follows.
 
 Let $\mathcal{I}$ be the items to be accommodated into the bins and let
 $\mathcal{K}$ be the set of bins available.  From the standpoint of the
 mapping problem, $\mathcal{I}$ refers to the set of
 application-tasks($V_t$) and $\mathcal{K}$ refers to the
-resources($V_r$). Similar to the Knapsack problem~\cite{knapsack}, by
+resources($V_r$). Similar to the Knapsack problem~\cite{sski08}, by
 which A-BFD is inspired, each element $i \in \mathcal{I}, \mathcal{K}$
 has two constraints on them represented by $c_i$(cost) and
 $V_i$(volume). Right off the bat, this seems to be a significant
