@@ -76,7 +76,8 @@ acceptance probability and move functions.
 We use the value for the initial and final temperature for the annealing
 schedule from the paper written by Heikki et al.~\ref{parameters-SA}. 
 
-The initial temperature $\mathcal{T}_0$ of the annealing schedule is selected as follows,
+The initial temperature $\mathcal{T}_0$ of the annealing schedule is selected as
+follows,
 \begin{equation}
 \mathcal{T}_0 = \frac{kt_{max}}{t_{minsum}}
 \end{equation}
@@ -93,7 +94,23 @@ PE $r_j \in V_r$ and $t_{maxsum}$ is the sum of execution time of all tasks $\in
 V_t$ on the slowest PE $r_{slowest} \in V_r$. In both the cases, $k$ is a
 constant and $k=1$ is suitable for all our experiments.
 
-Since the objective of this article is to map heterogeneous applications onto heterogeneous architectures, these heuristics have to be changed as well. When we  
+Since the objective of this article is to map heterogeneous applications onto
+heterogeneous architectures, these heuristics have to be changed as well. We
+calculate the fastest and slowest procesorss by multiplying each processor's
+capabilities ($W^r_0(i) * W^r_1(i)$) and sorting them. The first capability 
+
+talk about how temperature changes
+
+include temerature change graph for some example, with different qs on the same
+graph
+
+move function; how the move function is affected by temperature; why it shud be;
+a figure depicting how we explore the sample space; global at start and local
+towards the end.
+an example graph of how best solution changes with time.
+
+acceptance probability; intuition behind accepting bad states = BS;
+
 
 %%% Local Variables: 
 %%% mode: latex
