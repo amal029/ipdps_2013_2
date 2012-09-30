@@ -30,11 +30,10 @@ an important stencil computation used in a plethora of domains such as
 fluid dynamic and hence, it is worth investigating performance
 improvements for Jacobi.
 
-In Figure~\ref{fig:4}, statements \texttt{S1} and \texttt{S2} initialize
-2D Jacobi matrices. Next, the actual stencil computation is carried out
-in statement \texttt{S3}, for \texttt{TSTEPS} iterations. Finally,
-statement \texttt{S4}, transfers the calculated data from matrix
-\texttt{B} to \texttt{A}.
+In Figure~\ref{fig:4}, statements S1 and S2 initialize 2D Jacobi
+matrices. Next, the actual stencil computation is carried out in
+statement S3, for \texttt{TSTEPS} iterations. Finally, statement S4,
+transfers the calculated data from matrix \texttt{B} to \texttt{A}.
 
 \begin{scriptsize}
   \begin{figure}[h!]
@@ -67,42 +66,40 @@ statement \texttt{S4}, transfers the calculated data from matrix
 The task graph for the 2D Jacobi stencil computation is shown in
 Figure~\ref{fig:5b}. The initialization phase of the Jacobi example
 consist of both task and data parallelism. In Figure~\ref{fig:5b}, the
-first and second row of statements \texttt{S1\_1} to \texttt{S1\_m} and
-\texttt{S2\_1} to \texttt{S2\_m}, show various loop tiles that are
-generated for execution onto different processors for statements
-\texttt{S1} and \texttt{S2}, respectively. Everyone of these nodes
-indicate vector computations. Sample vector code within anyone of these
-assignment nodes when assigned to an Intel SSE3 unit is shown in
-Figure~\ref{fig:6}. Similar vector code is generated in the ptx format
-for GPU allocations. We keep a count of the number of instructions for
-each of these nodes. There are two counts: (1) the number of
-instructions a node needs to execute iteratively. For example, node
-\texttt{S3} (representing statement \texttt{S3} in the Jacobi example)
-needs to iterate 998001000 times for a 1000 $\times$ 1000 matrix with
+first and second row of statements $S1_1$ to $S1_m$ and $S2_1$ to
+$S2_m$, show various loop tiles that are generated for execution onto
+different processors for statements S1 and S2, respectively. Everyone of
+these nodes indicate vector computations. Sample vector code within
+anyone of these assignment nodes when assigned to an Intel SSE3 unit is
+shown in Figure~\ref{fig:6}. Similar vector code is generated in the ptx
+format for GPU allocations. We keep a count of the number of
+instructions for each of these nodes. There are two counts: (1) the
+number of instructions a node needs to execute iteratively. For example,
+node S3 (representing statement S3 in the Jacobi example) needs to
+iterate 998001000 times for a 1000 $\times$ 1000 matrix with
 \texttt{TSTEPS} itself set to a 1000, provided it is not vectorized as
-shown in Figure~\ref{fig:5b}. (2) Nodes \texttt{S1\_1} to \texttt{S1\_m} and
-\texttt{S2\_1} to \texttt{S2\_m} only need to be executed once, but have
-a large vector count.
+shown in Figure~\ref{fig:5b}. (2) Nodes $S1_1$ to $S1_m$ and $S2_1$ to
+$S2_m$ only need to be executed once, but have a large vector count.
 
 Each ellipse in the task-graph is connected to a store. Stores are
 represented as boxes in the task-graph. Stores have their instruction
-count and vector length count set to 0. Every statement deepening upon
+count and vector length count set to 0. Every statement depending upon
 its vector length requires different amount of data to carry out the
 computation. This data needs to be transfered from the store (the main
 memory in most cases) to the caches where the task nodes are going to be
 executed. We represent the about of data to be transfered in the
-task-graph in bits. For example, node \texttt{S1\_1} with a smaller
-vector length of 16, requires 2.2KB of data to be transfered to its
-cache for computation. Node \texttt{S3} on the other hand, being
-non-vectorized requires 15KB of data to be transfered to its cache.
+task-graph in bits. For example, node $S1_1$ with a smaller vector
+length of 16, requires 2.2KB of data to be transfered to its cache for
+computation. Node S3 on the other hand, being non-vectorized requires
+15KB of data to be transfered to its cache.
 
 Finally, the task graph also consists of dependence edges. In
 Figure~\ref{fig:5b}, the dependence edges are marked with the dashed
 lines. Dependence edges, as the name suggests show the dependence
-between statements in the application. For example, statements
-\texttt{S1} and \texttt{S2} are independent of each other. But,
-statements \texttt{S3} and \texttt{S4} are dependent upon these
-aforementioned statements. Dependence edges do not have any weights.
+between statements in the application. For example, statements S1 and S2
+are independent of each other. But, statements S3 and S4 are dependent
+upon these aforementioned statements. Dependence edges do not have any
+weights.
 
 \begin{figure}[h!]
   \centering
