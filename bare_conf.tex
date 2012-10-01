@@ -77,6 +77,20 @@
 % Some very useful LaTeX packages include:
 % (uncomment the ones you want to load)
 
+\usepackage{bibspacing}
+\setlength{\bibspacing}{\baselineskip}
+\usepackage{multirow}
+\usepackage{xspace}
+\usepackage{bm}
+\newcommand{\numtplgynodes}{\ensuremath{|V_r|}\xspace}
+\newcommand{\gpunum}{\ensuremath{N_G}\xspace}
+\newcommand{\veclenset}{\ensuremath{\bm{V}}\xspace}
+\newcommand{\bwset}{\ensuremath{\bm{B}}\xspace}
+\newcommand{\mipsset}{\ensuremath{\bm{M}}\xspace}
+\newcommand{\corenumset}{\ensuremath{\bm{C}}\xspace}
+\newcommand{\expt}{\ensuremath{\bm{E}}\xspace}
+\newcommand{\ul}{\underline}
+\newcommand{\noname}{The NoNamer\xspace}
 
 % *** MISC UTILITY PACKAGES ***
 %
@@ -171,7 +185,7 @@
 
 % *** MATH PACKAGES ***
 %
-%\usepackage[cmex10]{amsmath}
+\usepackage[cmex10]{amsmath}
 % A popular package from the American Mathematical Society that provides
 % many useful and powerful commands for dealing with mathematics. If using
 % it, be sure to load this package with the cmex10 option to ensure that
@@ -424,7 +438,7 @@ line 4: Email: name@xyz.com}
   to extract parallelism, is a known NP-hard problem. Heterogeneity
   exponentially complicates the aforementioned partitioning problem. A
   number of heuristic approaches have been proposed for heterogeneous
-  partitioning some using simulated annealing, to overcome the NP-hard
+  partitioning, some using simulated annealing, to overcome the NP-hard
   nature of the problem. The novelty of our approach is two fold: (1) we
   go a step further than the currently proposed scientific literature,
   considering heterogeneity at levels of: task parallelism, data
@@ -558,7 +572,7 @@ Figure~\ref{fig:3}, the assignment to \texttt{A} and \texttt{B} are
 carried out in parallel using different cores, but, while the assignment
 to \texttt{A} is carried out in a vector instruction for the just the
 inner loop, for \texttt{B}, both the loops are collapsed, and the
-vectorization is carried out in a single go. The two options chosen
+vectorization is carried out in a single go. The two options chosen,
 depend upon the underlying architecture. The size of the caches and the
 size of underlying vector length. Optimizations can be performed further
 still on Figure~\ref{fig:3}, such as loop unrolling or loop interchange.
@@ -586,8 +600,8 @@ lengths, varying processing capacity and connected via differing
 bandwidths/latencies, how does one compile or even design the program to
 actually utilize the underlying hardware properly? This is the question
 we are trying to answer in this paper. We provide an improved simulated
-annealing approach to solving this problem. Our key contributions in
-this paper are:
+annealing approach to solving this problem. Our \textbf{key
+  contributions} in this paper are:
 
 \begin{itemize}
 \item A Simulated annealing approach to tuning programs for task and
@@ -597,6 +611,7 @@ this paper are:
   times.
 \end{itemize}
 
+The rest of the paper is arranges as follows....
 
 \section{Related Work}
 \label{sec:related-work}
