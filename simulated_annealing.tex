@@ -92,7 +92,7 @@ $R \leftarrow 0$\;
   $C_{new} \leftarrow OBJECTIVE\_FUNCTION(\zeta_{new})$\;
   $\Delta C \leftarrow C_{new} - C_{current}$\;
   $r \leftarrow RAND()$\;
-  $p \leftarrow ACCEPTANCE_PROBABILITY(\Delta C, \mathcal{T}_{current})$\;
+  $p \leftarrow ACCEPTANCE\_PROBABILITY(\Delta C, \mathcal{T}_{current})$\;
   \If{$\Delta C \textless 0$ or $r \textless p$}{
     \If{$C_{new} \textless C_{best}$}{
       $\zeta_{best} \leftarrow \zeta_{new}$\;
