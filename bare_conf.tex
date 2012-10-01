@@ -110,7 +110,9 @@
 % When switching from latex to pdflatex and vice-versa, the compiler may
 % have to be run twice to clear warning/error messages.
 
-
+\addtolength{\floatsep}{-5mm}
+% \addtolength{\textfloatsep}{-2mm}
+\addtolength{\abovecaptionskip}{-3mm}
 
 
 
@@ -186,6 +188,7 @@
 % *** MATH PACKAGES ***
 %
 \usepackage[cmex10]{amsmath}
+\usepackage{amssymb}
 % A popular package from the American Mathematical Society that provides
 % many useful and powerful commands for dealing with mathematics. If using
 % it, be sure to load this package with the cmex10 option to ensure that
@@ -208,7 +211,7 @@
 \usepackage{algorithm2e}
 % *** SPECIALIZED LIST PACKAGES ***
 %
-\usepackage{algorithmic}
+% \usepackage{algorithmic}
 % \usepackage{program}
 % algorithmic.sty was written by Peter Williams and Rogerio Brito.
 % This package provides an algorithmic environment fo describing algorithms.
@@ -529,6 +532,7 @@ extraction.
 
 \begin{figure}[h!]
   \centering
+  \small{
 \begin{verbatim}
  for (int i=0;i<M; ++i){
   for (int j=0;j<N; ++j){
@@ -537,6 +541,7 @@ extraction.
   }
  }
 \end{verbatim}
+  }
   \caption{Example C source code, filling in two matrices in a stencil
     computation}
   \label{fig:1}
@@ -552,6 +557,7 @@ statements that are independent.
 
 \begin{figure}[h!]
   \centering
+  \small{
 \begin{verbatim}
 for (int i=0;i<M;++i)
  for (int j=0;j<N;++j)
@@ -561,6 +567,7 @@ for (int i=0;i<M;++i)
  for (int j=0;j<N;++j)
   B[i][j] = i*j+9.0/N
 \end{verbatim}
+  }
   
   \caption{Fissed loops to extract task-parallelism}
   \label{fig:2}
@@ -579,6 +586,7 @@ still on Figure~\ref{fig:3}, such as loop unrolling or loop interchange.
 
 \begin{figure}[h!]
   \centering
+  \small{
 \begin{verbatim}
 for (int i=0;i<M;++i)
 //inner loop vectorization
@@ -587,7 +595,7 @@ for (int i=0;i<M;++i)
 // Loop collapsed vectorization
   B[0:M-1][0:N-1] = [0:M-1]*[0:N-1]+9.0/N
 \end{verbatim}
-
+  }
   \caption{Data and task parallel for loops}
   \label{fig:3}
 \end{figure}

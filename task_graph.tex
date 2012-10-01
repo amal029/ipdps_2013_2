@@ -19,7 +19,7 @@ architecture.
     % \includegraphics[scale=0.4]{./figures/jacobi}
     \label{fig:5b}
   }
-  \caption{}
+  \caption{Compilation tool-chain and an example task graph}
   \label{fig:5}
 \end{figure*}
 
@@ -38,6 +38,7 @@ transfers the calculated data from matrix \texttt{B} to \texttt{A}.
 \begin{scriptsize}
   \begin{figure}[h!]
     \centering
+    \small{
 \begin{verbatim}
  //Task and data-parallel
  for (int i=0;i<M; ++i){
@@ -58,6 +59,7 @@ transfers the calculated data from matrix \texttt{B} to \texttt{A}.
     S4: A[i][j] = B[i][j]
  }
 \end{verbatim}
+    }
     \caption{Example 2-dimensional Jacobi stencil computation}
     \label{fig:4}
   \end{figure}
@@ -105,6 +107,7 @@ dependence edges.
 
 \begin{figure}[h!]
   \centering
+  \small{
 \begin{verbatim}
 LCPI0_0:
  .long	1018444121 ## float 2.200000e-02
@@ -114,6 +117,7 @@ LCPI0_0:
 
  movaps	LCPI0_0(%rip), %xmm8
 \end{verbatim}
+  }
   \caption{Example vector code running on the Intel SSE unit}
   \label{fig:6}
 \end{figure}

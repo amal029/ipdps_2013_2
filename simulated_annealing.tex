@@ -3,7 +3,7 @@
 
 Simulated Annealing~\cite{skir83} is a generic probabilistic algorithm
 for finding the global optimum of a given function,
-$\mathcal{F}:\mathcal{R}\rightarrow\mathcal{R}$, which has a large
+$\mathcal{F}: \mathbb{R} \rightarrow \mathbb{R}$, which has a large
 search space.  Simulated Annealing in most of the cases is cheaper than
 exhaustive enumeration, which is exhaustively listing the entire search
 space. Since it is a monte carlo method it will always terminate and the
@@ -66,52 +66,60 @@ higher probability. As the temperature falls down, this probability decreases
 and the alogrithm is less tolerant towards solutions with a worse value for the
 objective function.
 
-This is the reason why SA is not a purely greedy algorithm as it accepts moves
-to bad states with some probability which enables it to move out of local
-maximas/minimas. But the algorithm becomes more greedier as the temperature
-decreases. Figure~\ref{fig:temperature_drop} shows how the temperature drops and
-how this acceptance probability changes with this drop in temperature.
+This is the reason why SA is not a purely greedy algorithm as it accepts
+moves to bad states with some probability which enables it to move out
+of local maximas/minimas. But the algorithm becomes more greedier as the
+temperature decreases. Figure~\ref{fig:7} shows how the temperature
+drops and how this acceptance probability changes with this drop in
+temperature.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.35]{./figures/temperature-drop}
+  \caption{Temperature variations in standard SA with varying $q$}
+  \label{fig:7}
+\end{figure}
 
 \subsection{Conventional Simulated Annealing : From the mapping problem standpoint}
 
-\begin{scriptsize}
 \begin{algorithm}[h!]
-\caption{$Simulated\_Annealing(\zeta_0, \mathcal{T}_0)$}
-\label{algo:SA}
-% \DontPrintSemicolon
-\KwIn{Initial Mapping $\zeta_0$ and Starting Temperature $\mathcal{T}_0$}
-\KwOut{Best Mapping $\zeta_{best}$}
-$\zeta_{current} \leftarrow \zeta_0$ \;
-$C_{current} \leftarrow OBJECTIVE\_FUNCTION(\zeta_0)$ \;
-$\zeta_{best} \leftarrow \zeta_{current}$\;
-$C_{best} \leftarrow C_{current}$\;
-$R \leftarrow 0$\;
-\For {$i \leftarrow 0\ to\ \infty$}{
-  $\mathcal{T}_{current} \leftarrow NEXT\_TEMPERATURE(\mathcal{T_0,i})$\;
-  $\zeta_{new} \leftarrow NEXT\_STATE(\zeta_{current}, \mathcal{T})$\;
-  $C_{new} \leftarrow OBJECTIVE\_FUNCTION(\zeta_{new})$\;
-  $\Delta C \leftarrow C_{new} - C_{current}$\;
-  $r \leftarrow RAND()$\;
-  $p \leftarrow ACCEPTANCE\_PROBABILITY(\Delta C, \mathcal{T}_{current})$\;
-  \If{$\Delta C \textless 0$ or $r \textless p$}{
-    \If{$C_{new} \textless C_{best}$}{
-      $\zeta_{best} \leftarrow \zeta_{new}$\;
-      $C_{best} \leftarrow C_{new}$\;
-      $\zeta_{current} \leftarrow \zeta_{new}$\;
-      $C_{current} \leftarrow C_{new}$\;
-      $R \leftarrow 0$\;
+  \small{
+    \caption{$Simulated\_Annealing(\zeta_0, \mathcal{T}_0)$}
+    \label{algo:SA}
+    % \DontPrintSemicolon
+    \KwIn{Initial Mapping $\zeta_0$ and Starting Temperature $\mathcal{T}_0$}
+    \KwOut{Best Mapping $\zeta_{best}$}
+    $\zeta_{current} \leftarrow \zeta_0$ \;
+    $C_{current} \leftarrow OBJECTIVE\_FUNCTION(\zeta_0)$ \;
+    $\zeta_{best} \leftarrow \zeta_{current}$\;
+    $C_{best} \leftarrow C_{current}$\;
+    $R \leftarrow 0$\;
+    \For {$i \leftarrow 0\ to\ \infty$}{
+      $\mathcal{T}_{current} \leftarrow NEXT\_TEMPERATURE(\mathcal{T_0,i})$\;
+      $\zeta_{new} \leftarrow NEXT\_STATE(\zeta_{current}, \mathcal{T})$\;
+      $C_{new} \leftarrow OBJECTIVE\_FUNCTION(\zeta_{new})$\;
+      $\Delta C \leftarrow C_{new} - C_{current}$\;
+      $r \leftarrow RAND()$\;
+      $p \leftarrow ACCEPTANCE\_PROBABILITY(\Delta C, \mathcal{T}_{current})$\;
+      \If{$\Delta C \textless 0$ or $r \textless p$}{
+        \If{$C_{new} \textless C_{best}$}{
+          $\zeta_{best} \leftarrow \zeta_{new}$\;
+          $C_{best} \leftarrow C_{new}$\;
+          $\zeta_{current} \leftarrow \zeta_{new}$\;
+          $C_{current} \leftarrow C_{new}$\;
+          $R \leftarrow 0$\;
+        }
+      }
+      \Else{
+        \If{$\mathcal{T}_{current} \leq \mathcal{T}_f$}{
+          $R \leftarrow R+1$
+          \If{$R \geq R_{max}$}{break}
+        }
+      }
     }
+    \Return $\zeta_{best}$
   }
-  \Else{
-    \If{$\mathcal{T}_{current} \leq \mathcal{T}_f$}{
-      $R \leftarrow R+1$
-      \If{$R \geq R_{max}$}{break}
-    }
-  }
-}
-\Return $\zeta_{best}$
 \end{algorithm}
-\end{scriptsize}
 
 Algorithm~\ref{algo:SA} represents the pseudocode for the algorithm discussed in
 ~\cite{hors06}. The \textit{OBJECTIVE\_FUNCTION} evaluates execution time of a
@@ -144,14 +152,16 @@ task execution times. This is done by normalizing the change in cost, $\Delta
 C$,
 
 \begin{equation}
-ACCEPTANCE\_PROBABILITY(\Delta C, \mathcal{T}) = \frac{1}{1+exp(\frac{\Delta
-C}{0.5C_0\mathcal{T}})}
+  \begin{array}{c}
+    ACCEPTANCE\_PROBABILITY(\Delta C, \mathcal{T}) \\ 
+    = \frac{1}{1+exp(\frac{\Delta C}{0.5C_0\mathcal{T}})}
+  \end{array}
 \end{equation}
 
 The initial temperature $\mathcal{T}_0$ of the annealing schedule is selected as
 follows,
 \begin{equation}
-\mathcal{T}_0 = \frac{kt_{max}}{t_{minsum}}
+\mathcal{T}_0 = \frac{t_{max}}{t_{minsum}}
 \end{equation}
 where $t_{max}$ is the maximum execution time for any task $t_i \in V_t$ on any
 PE $r_j \in V_r$ and $t_{minsum}$ is the sum of execution time of all tasks $\in
@@ -159,12 +169,13 @@ V_t$ on the fastest PE $r_{fastest} \in V_r$.
 
 The final temperature of the annealing schedule is selected as follows,
 \begin{equation}
-\mathcal{T}_f = \frac{t_{min}}{kt_{maxsum}}
+\mathcal{T}_f = \frac{t_{min}}{t_{maxsum}}
 \end{equation}
-where $t_{min}$ is the minimum execution time for any task$t_i \in V_t$ on any
-PE $r_j \in V_r$ and $t_{maxsum}$ is the sum of execution time of all tasks $\in
-V_t$ on the slowest PE $r_{slowest} \in V_r$. In both the cases, $k$ is a
-constant and $k=1$ is suitable for all our experiments.
+
+where $t_{min}$ is the minimum execution time for any task $t_i \in V_t$
+on any PE $r_j \in V_r$ and $t_{maxsum}$ is the sum of execution time of
+all tasks $\in V_t$ on the slowest PE $r_{slowest} \in V_r$. % In both the
+% cases, $k$ is a constant and $k=1$ is suitable for all our experiments.
 
 \subsubsection{Our Improved SA Approach}
 
@@ -211,13 +222,14 @@ temperature is high
 \item As the temperature drops, we want to reduce our search space to the
 current best solutions neighbourhood
 \end{itemize}
-This can be thought of as doing a global state space exploration at the beginning
-stages of the optimization, i.e. when temperature is high, as we want to get a
-sense of which neighbourhood gives a good result. Once we find a good
-negihbourhood we start to reduce our radius of search by allowing only limited
-number of tasks to move to different PEs. This results in a localized search
-when the temperature drops. We found this to be quite effective in terms of
-finding effective mappings as our results from~\ref{results-section} shows.
+This can be thought of as doing a global state space exploration at the
+beginning stages of the optimization, i.e. when temperature is high, as
+we want to get a sense of which neighbourhood gives a good result. Once
+we find a good negihbourhood we start to reduce our radius of search by
+allowing only limited number of tasks to move to different PEs. This
+results in a localized search when the temperature drops. We found this
+to be quite effective in terms of finding effective mappings as our
+results from Section~\ref{sec:results} shows.
 
 \item The \textit{NEXT\_TEMPERATURE} function, which is defined as follows, is
 also changed to prevent multiple mapping iterations in one temperature level. We
@@ -225,15 +237,16 @@ want to avoid this as we do not want to spend a majority of the annealing
 schedule searching for global optimums. 
 
 \begin{equation}
-\textit{NEXT\_TEMPERATURE}(\mathcal{T}_0, i) = \mathcal{T}_0*q^{i}{L}
+  \textit{NEXT\_TEMPERATURE}(\mathcal{T}_0, i) =
+  \mathcal{T}_0*q^{\frac{i}{L}}
 \end{equation}
 
-Figure~\ref{temperature-drop-graphs} shows how the temperature varies with
-iterations. It clearly shows how the temperature drops quicker for smaller
-values of $q$ and slower for larger values. Even though we removed the concept
-of multiple number of mapping iterations per temperature level from the previous
-algorithm, we retained the $q$ parameter as we wanted to control how
-quickly/slowly the temperature must drop.
+Figure~\ref{fig:7} shows how the temperature varies with iterations. It
+clearly shows how the temperature drops quicker for smaller values of
+$q$ and slower for larger values. Even though we removed the concept of
+multiple number of mapping iterations per temperature level from the
+previous algorithm, we retained the $q$ parameter as we wanted to
+control how quickly/slowly the temperature must drop.
 
 \item We use the value for the initial and final temperature for the annealing
 schedule from the paper written by Heikki et al.~\cite{hors06}. Since the
