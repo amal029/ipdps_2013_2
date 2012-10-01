@@ -70,9 +70,9 @@ Figure~\ref{fig:5b}. The initialization phase of the Jacobi example
 consist of both task and data parallelism. In Figure~\ref{fig:5b}, the
 first and second row of statements $S1_1$ to $S1_m$ and $S2_1$ to
 $S2_m$, show various loop tiles that are generated for execution onto
-different processors for statements S1 and S2, respectively. Everyone of
-these nodes indicate vector computations. Sample vector code within
-anyone of these assignment nodes when assigned to an Intel SSE3 unit is
+different processors for statements S1 and S2, respectively. Each of
+these nodes indicate vector computations. Sample vector code within any
+one of these assignment nodes when assigned to an Intel SSE3 unit is
 shown in Figure~\ref{fig:6}. Similar vector code is generated in the ptx
 format for GPU allocations. We keep a count of the number of
 instructions for each of these nodes. There are two counts: (1) the

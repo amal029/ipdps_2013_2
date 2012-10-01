@@ -18,18 +18,17 @@ with min-edge cuts can form a good tool to partition a task-graph onto a
 multi-processor system, resulting in equal utilization of PEs and
 reduced communication costs. We have utilized the Metis~\cite{gkar95}
 graph partitioning tool to perform a K-way graph partitioning onto
-heterogeneous multi-processor architectures for comparison
-purposes.
+heterogeneous multi-processor architectures for comparison purposes.
 
 Metis is a graph partitioner, which implements K-way partitioning with
 min-edge cut as the primary objective. The weights on the graph nodes
 are represented as constraints. Each graph node can have multiple-node
 weights, representing different criteria. The edges between nodes can be
 weighted themselves, but as opposed to nodes, edges can only be
-decorated with a single weight. Moreover, the unique point about Metis
-is that one can use a concept called ``tp-weights'', which give
-weightage, to different node constraints when performing load-balancing
-during K-way graph partitioning. % These are the only features of Metis
+decorated with a single weight. Moreover, in Metis one can use a concept
+called ``tp-weights'', which give preference, to different node
+constraints when performing load-balancing during K-way graph
+partitioning~\cite{gkar95}. % These are the only features of Metis
 % that we required when implementing our algorithm. Metis provides a
 % number of other features, which the readers can lookup
 % in~\cite{gkar95}.
@@ -40,12 +39,12 @@ multi-core architecture is as follows:
 \begin{itemize}
 
 \item Our resource graph is first described as a simple graph in
-  metis. In this description each of the two capabilities $W^i_0$ and
+  Metis. In this description each of the two capabilities $W^i_0$ and
   $W^i_1$ are described as two constraints for each node in the
   graph. The communication bandwidth is described as edge weights in
-  metis.
+  Metis.
 
-\item Once we have the resource graph in the metis format we calculate
+\item Once we have the resource graph in the Metis format we calculate
   the tp-weights. There are two tp-weights generated, one for each of
   the resource node capabilities. Let us revisit the 4 $\times$ 4 mesh
   shown in Figure~\ref{fig:1r}. For each processor the MIPS tp-weight is
@@ -53,17 +52,20 @@ multi-core architecture is as follows:
     V_r}(W^i_0)$. Similarly, we can easily calculate the tp-weight
   metric for each PEs vector length capability as: $W^i_1/\sum_{\forall
     i \in V_r}(W^i_1)$. These fractions give a relative approximation of
-  the capabilities of each PE compared to the other.
+  the capabilities of each PE compared to the other. For example, given
+  two nodes with $W^0_0 = 100$ and $W^1_0 = 50$, then the tp-weights for
+  the first node has a tp-weight of, $0.667$, while the second has a
+  tp-weight of, $0.333$.
 
-\item The nodes in our task graph are described as node in the metis
-  format. The two requirements ($R^i_0$ and $R^i_1$) for each task node
-  are described as two constraints in the metis node format. The edge
-  weights in our task graph are described as edge weights in the metis
-  graph format.
+\item The nodes in our task graph are described as graph nodes in the
+  Metis format. The two requirements ($R^i_0$ and $R^i_1$) for each task
+  node are described as two constraints in the Metis node format. The
+  edge weights in our task graph are described as edge weights in the
+  Metis graph format.
 
-\item Once we have the task graph described in the metis format along
+\item Once we have the task graph described in the Metis format along
   with the tp-weight metric for each PE in the resource graph. We ask
-  for a $|V_r|$ partition from metis, giving the tp-weight metric for
+  for a $|V_r|$ partition from Metis, giving the tp-weight metric for
   each constraint of the task graph.
 
 \item The resultant partition is then used to calculate the objective in
@@ -84,10 +86,10 @@ $\mathcal{K}$ be the set of bins available.  From the standpoint of the
 mapping problem, $\mathcal{I}$ refers to the set of task graph nodes
 ($|V_t|$) and $\mathcal{K}$ refers to the nodes in the resource graph
 ($|V_r|$). Similar to the Knapsack problem~\cite{sski08}, by which A-BFD
-is inspired, each element $i \in \mathcal{I},\ \mathcal{K}$ has two
-constraints on them represented by $c_i$ (cost), which translates to the
-PE capability $W^i_0$ and $V_i$ (volume), which translates to the
-capability $W^i_1$, respectively.
+(\textit{Adaptive Best First Decreasing}) is inspired, each element $i
+\in \mathcal{I},\ \mathcal{K}$ has two constraints on them represented
+by $c_i$ (cost), which translates to the PE capability $W^i_0$ and $V_i$
+(volume), which translates to the capability $W^i_1$, respectively.
 % Right off the bat, this seems to be a significant advantage, our
 % framework has over heterogeneous bin packing, as \textit{A-BFD} only
 % works with two constraints whereas our framework poses no such
@@ -121,7 +123,7 @@ resource graph $G_r$).
 \label{sec:experimental-setup}
 
 We need to setup the resource graph and the task graph for experimental
-purposes. Herein, we describe our setup for both.
+purposes. Here, we describe our setup for both.
 
 \subsubsection{The resource graph setup}
 \label{sec:resource-graph-setup}
@@ -258,7 +260,7 @@ varies from 3000 bytes to almost 4.8 Mega byte.
   \label{tab:1}
 \end{table}
 
-\subsection{The results}
+\subsection{Experimental results}
 \label{sec:results}
 
 The comparison of our simulated annealing approach with other techniques
@@ -285,9 +287,9 @@ convolution and Jacobi. The major statistics comparing the two
 approaches is provided in Table~\ref{tab:2}. In Table~\ref{tab:2}, The
 \textbf{Max latency} and the \textbf{Min latency} columns, provide the
 maximum and minimum latencies observed in Figure~\ref{fig:metis} for
-each of the applications. The last column (\textbf{Better (\%)}) gives
-the number of points in the surfaces that were better in our SA
-technique compared to K-way graph partitioning.
+each of the applications. The last column gives the \% of points in the
+surfaces that were better in our SA technique compared to K-way graph
+partitioning.
 
 \begin{figure*}[t!]
   \centering
@@ -317,9 +319,8 @@ technique compared to K-way graph partitioning.
 \end{figure*}
 
 \begin{figure*}[t!]
-  \centering
-  \subfigure[Major statistics comparing K-way graph partitioning and our
-  SA approach]{
+  \centering \subfigure[Major statistics comparing K-way graph
+  partitioning and our SA approach for Figure~\ref{fig:metis}]{
     % \begin{table*}[t!]
       \centering
       \begin{tabular}{|c|c|c|c|c|c|}
@@ -327,7 +328,7 @@ technique compared to K-way graph partitioning.
         \textbf{Application} &
         \multicolumn{2}{|c|}{\textbf{Max latency (sec)}} &
         \multicolumn{2}{|c|}{\textbf{Min latency (sec)}} &
-        \textbf{Better (\%)} \\
+        \textbf{Our SA better than K-way (\%)} \\
         \hline
         & {K-way} & {Our SA approach} &
         {K-way} & {Our SA approach} & K-way vs Our SA approach\\
@@ -349,7 +350,7 @@ technique compared to K-way graph partitioning.
     % \end{table*}
   }
   \subfigure[Major statistics comparing heterogeneous bin packing and our
-      SA approach]{
+      SA approach for Figure~\ref{fig:ho}]{
     % \begin{table*}[t!]
     \centering
     \begin{tabular}{|c|c|c|c|c|c|}
@@ -357,7 +358,7 @@ technique compared to K-way graph partitioning.
       \textbf{Application} &
       \multicolumn{2}{|c|}{\textbf{Max latency (sec)}} &
       \multicolumn{2}{|c|}{\textbf{Min latency (sec)}} &
-      \textbf{Better (\%)} \\
+      \textbf{Our SA better than HBP (\%)} \\
       \hline
       & {HBP} & {Our SA approach} &
       {HBP} & {Our SA approach} & HBP vs Our SA approach\\
@@ -372,8 +373,8 @@ technique compared to K-way graph partitioning.
     % \caption{}
     \label{tab:3}
     % \end{table*}
-  }
-  \subfigure[Major statistics comparing standard SA and our SA approach]{
+  } \subfigure[Major statistics comparing standard SA vs our SA approach
+  for Figure~\ref{fig:stdsa}]{
     % \begin{table*}[t!]
     \centering
     \begin{tabular}{|c|c|c|c|c|c|}
@@ -401,11 +402,10 @@ technique compared to K-way graph partitioning.
     \label{tab:4}
     % \end{table*}
   }
-  \caption{Statistical comparisons for different benchmarks}
+  \caption{Statistical comparisons for different benchmarks detailing
+    Figures~\ref{fig:metis},~\ref{fig:ho}, and~\ref{fig:stdsa}}
   \label{fig:8}
 \end{figure*}
-
-
 
 \subsubsection{Comparison with heterogeneous bin packing heuristic}
 \label{sec:comp-with-heter}
@@ -433,20 +433,20 @@ very large instruction count ($w^i_1$). The major facts about
 Figure~\ref{fig:ho} are highlighted in Table~\ref{tab:3}.
 
 \begin{figure*}[t!]
-  \centering
+  % \centering
   \subfigure[2 Dimensional Convolution]{
-    \includegraphics[angle=0, scale=0.32]{./figures/conv_hbp_surface}
+    \includegraphics[angle=0, scale=0.3]{./figures/conv_hbp_surface}
     \label{fig:conv1ho}
   }
   \subfigure[Gram schmidtt linear-algebra kernel]{
-    \includegraphics[angle=0, scale=0.32]{./figures/gram_hbp_surface}
+    \includegraphics[angle=0, scale=0.3]{./figures/gram_hbp_surface}
     \label{fig:gram1ho}
   }
   \subfigure[2 Dimensional Jacobi stencil computation]{
-    \includegraphics[angle=0, scale=0.32]{./figures/jac_hbp_surface}
+    \includegraphics[angle=0, scale=0.3]{./figures/jac_hbp_surface}
     \label{fig:jacl1ho}
   }
-  \caption{Comparison of execution times of ``Our Framework" and
+  \caption{Comparison of execution times of ``Our SA technique" and
     ``Heterogeneous Bin Packing"}
   \label{fig:ho}
 \end{figure*}
@@ -490,10 +490,8 @@ ARAVIND: REASONS??
   \label{fig:stdsa}
 \end{figure*}
 
-\subsubsection{Effect of varying temperature}
-\label{sec:varying-temperature}
-
-
+% \subsubsection{Effect of varying temperature}
+% \label{sec:varying-temperature}
 
 
 %%% Local Variables: 
