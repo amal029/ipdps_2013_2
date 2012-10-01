@@ -47,8 +47,8 @@ transfers the calculated data from matrix \texttt{B} to \texttt{A}.
   }
  }
  for (int k=0;k<TSTEPS;++k){
-  for (int i=1; i<M; ++i)
-   for (int j=1; j<N; ++j)
+  for (int i=1; i<M-1; ++i)
+   for (int j=1; j<N-1; ++j)
     S3: B[i][j] = 0.2*(A[i][j]+A[i][j-1]
               +A[i][j+1]+A[i-1][j])
 
@@ -87,7 +87,7 @@ count and vector length count set to 0. Every statement depending upon
 its vector length requires different amount of data to carry out the
 computation. This data needs to be transfered from the store (the main
 memory in most cases) to the caches where the task nodes are going to be
-executed. We represent the about of data to be transfered in the
+executed. We represent the amount of data to be transfered in the
 task-graph in bits. For example, node $S1_1$ with a smaller vector
 length of 16, requires 2.2KB of data to be transfered to its cache for
 computation. Node S3 on the other hand, being non-vectorized requires
@@ -99,7 +99,9 @@ lines. Dependence edges, as the name suggests show the dependence
 between statements in the application. For example, statements S1 and S2
 are independent of each other. But, statements S3 and S4 are dependent
 upon these aforementioned statements. Dependence edges do not have any
-weights.
+weights. Once partitioned, the task-graph can then be scheduled
+statically or dynamically (work stealing~\cite{rblu99}, say) using these
+dependence edges.
 
 \begin{figure}[h!]
   \centering

@@ -74,38 +74,44 @@ how this acceptance probability changes with this drop in temperature.
 
 \subsection{Conventional Simulated Annealing : From the mapping problem standpoint}
 
+\begin{scriptsize}
 \begin{algorithm}[h!]
 \caption{$Simulated\_Annealing(\zeta_0, \mathcal{T}_0)$}
 \label{algo:SA}
-\DontPrintSemicolon
+% \DontPrintSemicolon
 \KwIn{Initial Mapping $\zeta_0$ and Starting Temperature $\mathcal{T}_0$}
 \KwOut{Best Mapping $\zeta_{best}$}
-$\zeta_{current} \leftarrow \zeta_0$ \\
-$C_{current} \leftarrow OBJECTIVE\_FUNCTION(\zeta_0)$ \\
-$\zeta_{best} \leftarrow \zeta_{current}$\\
-$C_{best} \leftarrow C_{current}$\\
-$R \leftarrow 0$\\
-\FOR $i \leftarrow 0$ to \infty
-\do $\mathcal{T}_{current} \leftarrow NEXT\_TEMPERATURE(\mathcal{T_0, i)$\\
-	$\zeta_{new} \leftarrow NEXT\_STATE(\zeta_{current}, \mathcal{T})$\\
-	$C_{new} \leftarrow OBJECTIVE\_FUNCTION(\zeta_{new})$\\
-	$\Delta C \leftarrow C_{new} - C_{current}$\\
-	$r \leftarrow RAND()$\\
-	$p \eftarrow ACCEPTANCE_PROBABILITY(\Delta C, \mathcal{T}_{current})$\\
-	\IF $\Delta C \textless 0$ or $r \textless p$\\
-		\IF $C_{new} \textless C_{best}$\\
-			$\zeta_{best} \leftarrow \zeta_{new}$\\
-			$C_{best} \leftarrow \C_{new}$\\
-		$\zeta_{current} \leftarrow \zeta_{new}$\\
-		$C_{current} \leftarrow C_{new}$\\
-		$R \leftarrow 0$\\
-	\ELSE
-		\IF $\mathcal{T}_{current} \leq \mathcal{T}_f$
-			$R \leftarrow R+1$
-			\IF $R \geq R_{max}$
-				break
-\RETURN $\zeta_{best}$
+$\zeta_{current} \leftarrow \zeta_0$ \;
+$C_{current} \leftarrow OBJECTIVE\_FUNCTION(\zeta_0)$ \;
+$\zeta_{best} \leftarrow \zeta_{current}$\;
+$C_{best} \leftarrow C_{current}$\;
+$R \leftarrow 0$\;
+\For {$i \leftarrow 0\ to\ \infty$}{
+  $\mathcal{T}_{current} \leftarrow NEXT\_TEMPERATURE(\mathcal{T_0,i})$\;
+  $\zeta_{new} \leftarrow NEXT\_STATE(\zeta_{current}, \mathcal{T})$\;
+  $C_{new} \leftarrow OBJECTIVE\_FUNCTION(\zeta_{new})$\;
+  $\Delta C \leftarrow C_{new} - C_{current}$\;
+  $r \leftarrow RAND()$\;
+  $p \leftarrow ACCEPTANCE_PROBABILITY(\Delta C, \mathcal{T}_{current})$\;
+  \If{$\Delta C \textless 0$ or $r \textless p$}{
+    \If{$C_{new} \textless C_{best}$}{
+      $\zeta_{best} \leftarrow \zeta_{new}$\;
+      $C_{best} \leftarrow C_{new}$\;
+      $\zeta_{current} \leftarrow \zeta_{new}$\;
+      $C_{current} \leftarrow C_{new}$\;
+      $R \leftarrow 0$\;
+    }
+  }
+  \Else{
+    \If{$\mathcal{T}_{current} \leq \mathcal{T}_f$}{
+      $R \leftarrow R+1$
+      \If{$R \geq R_{max}$}{break}
+    }
+  }
+}
+\Return $\zeta_{best}$
 \end{algorithm}
+\end{scriptsize}
 
 Algorithm~\ref{algo:SA} represents the pseudocode for the algorithm discussed in
 ~\cite{hors06}. The \textit{OBJECTIVE\_FUNCTION} evaluates execution time of a
