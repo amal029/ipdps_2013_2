@@ -456,12 +456,26 @@ Figure~\ref{fig:ho} are highlighted in Table~\ref{tab:3}.
 \label{sec:comp-with-establ}
 
 The figures showing the comparison of our approach with the established
-SA approach of~\cite{hors06} is shown in Figure~\ref{fig:stdsa}. There
+SA approach of~\cite{hors06} as shown in Figure~\ref{fig:stdsa}. There
 is not a single case where our SA approach is worse than the current
 established technique. The major statistics comparing the two techniques
 for Figure~\ref{fig:stdsa} are shown in Table~\ref{tab:4}.
 
-ARAVIND: REASONS??
+The reasons for this are two fold,
+\begin{itemize}
+\item We change the annealing schedule such that the search exploration is
+global initially, i.e. high temperaures, and it becomes local to the current
+best solution as temperature drops.
+\item We also get a better result because we do not permit multiple mapping
+iterations per temperature level which prevents a higher percentage of tasks
+moving to random PEs. 
+\end{itemize}
+
+In all the figures and statistics presented, we ran the conventional SA and our
+improved SA approach with a maximum time limit of 10 minutes, i.e. SA will
+terminate after 10 minutes if it has not already found a solution it is
+satisfied with. The experiments were performed on a quad-core dual processor
+system with 24 gigabytes of RAM.
 
 \begin{figure*}[t!]
   \centering
