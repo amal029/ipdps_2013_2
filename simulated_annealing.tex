@@ -56,11 +56,11 @@ good approximation of the optimum.
 % them onto different PEs would incur more costs and would thus lead to a
 % bad state.
 % =======
-In general SA is a non-greedy heuristic algorithm which explores the search
+SA is a heuristic algorithm which explores the search
 space by moving from a higher temperature to a lower temperature. The algorithm
 always accepts moves to a better solution, determined by evaluating an
-\textit{objective function} and sometimes accpets moves to worse states with a
-probability that changes with temperatures. Initially, when the temperature is
+\textit{objective function} and sometimes accepts moves to worse states with a
+probability that changes with temperature. Initially, when the temperature is
 high, the algorithm is more tolerable and accepts moves to worse states with a
 higher probability. As the temperature falls down, this probability decreases
 and the alogrithm is less tolerant towards solutions with a worse value for the
@@ -70,17 +70,12 @@ This is the reason why SA is not a purely greedy algorithm as it accepts
 moves to bad states with some probability which enables it to move out
 of local maximas/minimas. But the algorithm becomes more greedier as the
 temperature decreases. Figure~\ref{fig:7} shows how the temperature
-drops and how this acceptance probability changes with this drop in
-temperature.
+drops for different values of a annealing parameter $q$ which is described in
+Sections~\ref{sec:conventional-SA, sec:our-improved-sa}.
 
-\begin{figure}[h!]
-  \centering
-  \includegraphics[scale=0.35]{./figures/temperature-drop}
-  \caption{Temperature variations in standard SA with varying $q$}
-  \label{fig:7}
-\end{figure}
 
 \subsection{Conventional Simulated Annealing : From the mapping problem standpoint}
+\label{sec:conventional-SA}
 
 \begin{algorithm}[h!]
   \small{
@@ -112,7 +107,7 @@ temperature.
       }
       \Else{
         \If{$\mathcal{T}_{current} \leq \mathcal{T}_f$}{
-          $R \leftarrow R+1$
+          $R \leftarrow R+1$\;
           \If{$R \geq R_{max}$}{break}
         }
       }
@@ -121,8 +116,9 @@ temperature.
   }
 \end{algorithm}
 
-Algorithm~\ref{algo:SA} represents the pseudocode for the algorithm discussed in
-~\cite{hors06}. The \textit{OBJECTIVE\_FUNCTION} evaluates execution time of a
+Algorithm~\ref{algo:SA} represents the pseudocode for the novel algorithm
+presented by ~\cite{hors06} which maps applications onto Multiprocessor SoCs.
+This paper showed  The \textit{OBJECTIVE\_FUNCTION} evaluates execution time of a
 specific mapping by calling the scheduler. $\zeta_0, \zeta_{current}$ and
 $\mathcal{T}_0, \mathcal{T}_{current}$ are the intial and current mapping and
 temperatures respectively. The \textit{NEXT\_STATE} function moves a random task
@@ -177,7 +173,7 @@ on any PE $r_j \in V_r$ and $t_{maxsum}$ is the sum of execution time of
 all tasks $\in V_t$ on the slowest PE $r_{slowest} \in V_r$. % In both the
 % cases, $k$ is a constant and $k=1$ is suitable for all our experiments.
 
-\subsubsection{Our Improved SA Approach}
+\subsection{Our Improved SA Approach}
 \label{sec:our-improved-sa}
 
 We made some changes to the original algorithm and associated heuristics as
@@ -242,6 +238,12 @@ schedule searching for global optimums.
   \mathcal{T}_0*q^{\frac{i}{L}}
 \end{equation}
 
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.35]{./figures/temperature-drop}
+  \caption{Temperature variations in standard SA with varying $q$}
+  \label{fig:7}
+\end{figure}
 Figure~\ref{fig:7} shows how the temperature varies with iterations. It
 clearly shows how the temperature drops quicker for smaller values of
 $q$ and slower for larger values. Even though we removed the concept of
