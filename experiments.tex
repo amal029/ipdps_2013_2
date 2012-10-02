@@ -286,10 +286,10 @@ surface created by our SA heuristic for most applications, other than
 convolution and Jacobi. The major statistics comparing the two
 approaches is provided in Table~\ref{tab:2}. In Table~\ref{tab:2}, The
 \textbf{Max latency} and the \textbf{Min latency} columns, provide the
-maximum and minimum latencies observed in Figure~\ref{fig:metis} for
-each of the applications. The last column gives the \% of points in the
-surfaces that were better in our SA technique compared to K-way graph
-partitioning.
+maximum and minimum application latencies observed in
+Figure~\ref{fig:metis} for each of the applications. The last column
+gives the \% of points in the surfaces that were better in our SA
+technique compared to K-way graph partitioning.
 
 \begin{figure*}[t!]
   \centering
@@ -419,7 +419,7 @@ the required vector tile size. Our SA heuristic on the other hand runs a
 part of the vector on the underlying PE and then iterates in a loop
 until all vector computations are finished. For example, if the task
 graph requires a 1000 vector elements that need to be processed at once,
-and the largest vector capability in the resource graph is a 100 then,
+and the largest vector capability in the resource graph is a 100, then,
 our heuristic will allocate a 100 vector elements onto the underlying
 hardware and then increase the instruction count by 10.
 
