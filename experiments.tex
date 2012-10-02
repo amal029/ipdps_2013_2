@@ -1,10 +1,10 @@
 \section{Experiments and Results}
 
 We show the speedup obtained using our improved heuristics against the
-conventional heuristics for Simulated Annealing as prescribed
-by~\cite{hors06}. We also compare the results we obtain against the
-K-way graph partitioning algorithm~\cite{gkar95} and heterogeneous bin
-packing heuristic~\cite{mmar11}.
+conventional heuristics for SA as prescribed by~\cite{hors06}. We also
+compare the results we obtain against the K-way graph partitioning
+algorithm~\cite{gkar95} and heterogeneous bin packing
+heuristic~\cite{mmar11}.
 
 \subsection{K-way graph partitioning}
 \label{sec:k-way-graph}
@@ -23,10 +23,10 @@ heterogeneous multi-processor architectures for comparison purposes.
 Metis is a graph partitioner, which implements K-way partitioning with
 min-edge cut as the primary objective. The weights on the graph nodes
 are represented as constraints. Each graph node can have multiple-node
-weights, representing different criteria. The edges between nodes can be
+weights representing different criteria. The edges between nodes can be
 weighted themselves, but as opposed to nodes, edges can only be
 decorated with a single weight. Moreover, in Metis one can use a concept
-called ``tp-weights'', which give preference, to different node
+called ``tp-weights'', which give preference to different node
 constraints when performing load-balancing during K-way graph
 partitioning~\cite{gkar95}. % These are the only features of Metis
 % that we required when implementing our algorithm. Metis provides a
@@ -282,7 +282,7 @@ Z-axis. The X and Y axes show the number of PEs in the underlying
 architecture and the vector strip sizes, respectively.
 
 The surface produced by the K-way partitioning heuristic is above the
-surface created by our SA heuristic for all applications, other than
+surface created by our SA heuristic for most applications, other than
 convolution and Jacobi. The major statistics comparing the two
 approaches is provided in Table~\ref{tab:2}. In Table~\ref{tab:2}, The
 \textbf{Max latency} and the \textbf{Min latency} columns, provide the

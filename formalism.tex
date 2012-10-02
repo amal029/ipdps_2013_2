@@ -3,15 +3,15 @@
 
 The overall application partitioning problem onto a heterogeneous
 execution architecture can be formulated in terms of a graph
-partitioning problem. Given two graphs, the task-graph representing the
+partitioning problem. Given two graphs, the task graph representing the
 application and the resource-graph representing the underlying
-topology. How does one map the task-graph onto the resource-graph?
+topology. How does one map the task graph onto the resource-graph?
 
 
-\subsection{Formalizing the task-graph}
+\subsection{Formalizing the task graph}
 \label{sec:form-task-graph}
 
-A task-graph is a weighted directed graph $G_t(V_t,E_t)$, such that each
+A task graph is a weighted directed graph $G_t(V_t,E_t)$, such that each
 vertex $V_t$ is an execution node in the application, and \mbox{$E_t
   \subseteq (V_t \times V_t)$}, shows the communication edges between
 the vertices. Each vertex $V_t$ is decorated with weights: $w^t_0(i),
@@ -33,10 +33,10 @@ The system resources are represented by a weighted undirected graph
 $G_r(V_r,C_r)$. Where $V_r$ represents a processing element in the
 underlying resource graph, while the edge $C_r \subseteq (V_r \times
 V_r)$, represents the communication links. Each vertex is decorated with
-a weights $W^r_0(i)$ and $W^r_1(i), \forall i \in V_r$, which map the
+weights $W^r_0(i)$ and $W^r_1(i), \forall i \in V_r$, which map the
 \textit{Million Instructions Per Second} (MIPS) count of the vertex to
 an integer value, and the vector capacity of that vertex to an integer
-domain, respectively. Every, communication link is weighted with the
+domain, respectively. Every communication link is weighted with the
 bandwidth capacity denoted by $W^c(c), \forall c \in (V_r \times V_r)$.
 
 \subsection{Formalizing the objective: the latency of the application}
@@ -49,20 +49,20 @@ mapped to some resource $j \in V_r$. The latency for that node is
 computed as: $((w^t_1(i)/W^r_1(j)\times w^t_0(i))/W^r_0(c))+
 (w^e(e)/W^c(c)) | e = (i,k), k \neq i, \forall k \in V_t, c = (j,l), l
 \neq j, \forall l \in V_r $. In this formulation for some given
-task-graph node $i$, we first calculate the number of vectorized
+task graph node $i$, we first calculate the number of vectorized
 instructions that need to be performed (by diving the required vector
 length with the vector capacity of the resource node), this gives us the
 total number of vector instructions that would be performed on the
 resource node $j$. Next, we multiply the number of vector instructions
 to be performed by the number of iterative (non-vectorized) instructions
 required, this in turn gives us the total number of instructions to be
-performed by that task-graph node. Finally, we find the computation
+performed by that task graph node. Finally, we find the computation
 latency by dividing this total number of instructions with the MIPS
 value of the resource vertex. For communication on the other hand, we
 calculate the communication latency, by dividing the number of required
 bits to be transfered by the bandwidth of the resource.
 
-Given the task-graph and the resource-graph, let $\zeta$ be all possible
+Given the task graph and the resource-graph, let $\zeta$ be all possible
 mappings of the application on the resource-graph. For a particular
 mapping $\mathcal{M}$ defined as $\zeta_\mathcal{M}$ on some resource $s
 \in V_r$ the mapping latency is defined as:
