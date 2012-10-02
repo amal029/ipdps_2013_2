@@ -48,6 +48,12 @@ M.~I. Gordon, W.~Thies, and S.~Amarasinghe, ``Exploiting coarse-grained task,
   \url{http://doi.acm.org/10.1145/1168917.1168877}
 \BIBentrySTDinterwordspacing
 
+\bibitem{hors06}
+H.~Orsila, T.~Kangas, E.~Salminen, and T.~Hamalainen, ``Parameterizing
+  simulated annealing for distributing task graphs on multiprocessor socs,'' in
+  \emph{System-on-Chip, 2006. International Symposium on}, nov. 2006, pp. 1
+  --4.
+
 \bibitem{ubon08}
 \BIBentryALTinterwordspacing
 U.~Bondhugula, A.~Hartono, J.~Ramanujam, and P.~Sadayappan, ``A practical
@@ -120,21 +126,12 @@ A.~Jain, S.~Sanyal, S.~K. Das, and R.~Biswas, ``Fastmap: A distributed scheme
 \BIBentrySTDinterwordspacing
 
 \bibitem{rblu99}
-\BIBentryALTinterwordspacing
 R.~D. Blumofe and C.~E. Leiserson, ``Scheduling multithreaded computations by
   work stealing,'' \emph{J. ACM}, vol.~46, no.~5, pp. 720--748, Sep. 1999.
-  [Online]. Available: \url{http://doi.acm.org/10.1145/324133.324234}
-\BIBentrySTDinterwordspacing
 
 \bibitem{skir83}
 S.~Kirkpatrick, C.~D. Gelatt, and M.~P. Vecchi, ``Optimization by simulated
   annealing,'' \emph{Science}, vol. 220, pp. 671--680, 1983.
-
-\bibitem{hors06}
-H.~Orsila, T.~Kangas, E.~Salminen, and T.~Hamalainen, ``Parameterizing
-  simulated annealing for distributing task graphs on multiprocessor socs,'' in
-  \emph{System-on-Chip, 2006. International Symposium on}, nov. 2006, pp. 1
-  --4.
 
 \bibitem{gkar95}
 G.~Karypis and V.~Kumar, ``Metis - unstructured graph partitioning and sparse

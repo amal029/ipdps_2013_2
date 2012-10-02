@@ -68,13 +68,14 @@ objective function.
 
 This is the reason why SA is not a purely greedy algorithm as it accepts
 moves to bad states with some probability which enables it to move out
-of local maximas/minimas. But the algorithm becomes more greedier as the
-temperature decreases. Figure~\ref{fig:7} shows how the temperature
-drops for different values of a annealing parameter $q$ which is described in
-Sections~\ref{sec:conventional-SA, sec:our-improved-sa}.
+of local maxima and minima. However, the algorithm becomes greedier as
+the temperature decreases. Figure~\ref{fig:7} shows how the temperature
+drops for different values of a annealing parameter $q$ which is
+described in Sections~\ref{sec:conventional-SA}
+and~\ref{sec:our-improved-sa}.
 
-
-\subsection{Conventional Simulated Annealing : From the mapping problem standpoint}
+\subsection{Conventional Simulated Annealing : From the mapping problem
+  standpoint}
 \label{sec:conventional-SA}
 
 \begin{algorithm}[h!]
@@ -117,36 +118,39 @@ $\mathcal{T}_0$, $\mathcal{T}_f$}
   }
 \end{algorithm}
 
-Algorithm~\ref{algo:SA} represents the pseudocode for the novel algorithm
-presented by ~\cite{hors06} which maps applications onto Multiprocessor SoCs.
-The \textit{OBJECTIVE\_FUNCTION} evaluates execution time of a
-specific mapping by calling the scheduler. $\zeta_0, \zeta_{current}$ and
-$\mathcal{T}_0, \mathcal{T}_{current}$ are the initial and current mapping and
-temperatures respectively. The \textit{NEXT\_STATE} function moves a random task
-to a random PE different than the original PE. \textit{NEXT\_TEMPERATURE} is
-chosen so that the annealing schedule is proportional to the number of tasks and
-resources and is given by,
+Algorithm~\ref{algo:SA} represents the pseudocode for the novel
+algorithm presented by ~\cite{hors06} which maps applications onto
+Multiprocessor SoCs.  The \textit{OBJECTIVE\_FUNCTION} evaluates
+execution time of a specific mapping by calling the
+scheduler. $\zeta_0,\ \zeta_{current}$ and $\mathcal{T}_0,\
+\mathcal{T}_{current}$ are the initial and current mapping and
+temperatures, respectively. The \textit{NEXT\_STATE} function moves a
+random task to a random PE different than the original
+PE. \textit{NEXT\_TEMPERATURE} is chosen so that the annealing schedule
+is proportional to the number of tasks and resources and is given by,
 
 \begin{equation}
+\label{eq:3}
 \textit{NEXT\_TEMPERATURE}(\mathcal{T}_0, i) = \mathcal{T}_0*q^{\lfloor
 \frac{i}{L} \rfloor}
 \end{equation}
-
-where q is the proprtion of temperature preserved in each temperature level. In
-their paper, q was set as $0.95$ and L is the number of iterations in one
-temperature level. They achieve multiple iterations in one temperature level by
-using the \texttt{floor} function, since $\lfloor \frac{i}{L} \rfloor$ moves to
-a new value only at every integral multiple of $L$.
+\noindent
+where q is the proportion of temperature preserved in each temperature
+level. % In their paper, q was set as $0.95$ and
+L is the number of iterations in one temperature level. Multiple
+iterations are achieved at a single temperature level by using the
+\texttt{floor} function, since $\lfloor \frac{i}{L} \rfloor$ moves to a
+new value only at every integral multiple of $L$.
 
 \begin{equation}
 L = |V_t|*(|V_r| - 1)
 \end{equation}
 
-They, also modify the \textit{ACCEPTANCE\_PROBABILITY} from its traditional form
-of $\frac{1}{1+exp(\frac{\Delta C}{\mathcal{T}})}$ to adapt
-automatically to different cost function value ranges and graphs with different
-task execution times. This is done by normalizing the change in cost, $\Delta
-C$,
+The \textit{ACCEPTANCE\_PROBABILITY} function is modified from its
+traditional form: $\frac{1}{1+exp(\frac{\Delta C}{\mathcal{T}})}$ to
+adapt automatically to different cost function value ranges and graphs
+with different task execution times. This is done by normalizing the
+change in cost, $\Delta C$,
 
 \begin{equation}
   \begin{array}{c}
@@ -155,36 +159,48 @@ C$,
   \end{array}
 \end{equation}
 
-The initial temperature $\mathcal{T}_0$ of the annealing schedule is selected as
-follows,
+The initial temperature $\mathcal{T}_0$ of the annealing schedule is
+selected as:
+
 \begin{equation}
 \mathcal{T}_0 = \frac{t_{max}}{t_{minsum}}
 \end{equation}
-where $t_{max}$ is the maximum execution time for any task $t_i \in V_t$ on any
-PE $r_j \in V_r$ and $t_{minsum}$ is the sum of execution time of all tasks $\in
-V_t$ on the fastest PE $r_{fastest} \in V_r$.
+\noindent
+where $t_{max}$ is the maximum execution time for any task $i \in V_t$
+on any PE $j \in V_r$ and $t_{minsum}$ is the sum of execution time of
+all tasks in $V_t$ on the fastest PE $j_{fastest} \in V_r$.
 
-The final temperature of the annealing schedule is selected as follows,
+The final temperature of the annealing schedule is selected as:
+
 \begin{equation}
 \mathcal{T}_f = \frac{t_{min}}{t_{maxsum}}
 \end{equation}
-
-where $t_{min}$ is the minimum execution time for any task $t_i \in V_t$
-on any PE $r_j \in V_r$ and $t_{maxsum}$ is the sum of execution time of
-all tasks $\in V_t$ on the slowest PE $r_{slowest} \in V_r$. % In both the
+\noindent
+where $t_{min}$ is the minimum execution time for any task $i \in V_t$
+on any PE $j \in V_r$ and $t_{maxsum}$ is the sum of execution time of
+all tasks in $V_t$ on the slowest PE $j_{slowest} \in
+V_r$. % In both the
 % cases, $k$ is a constant and $k=1$ is suitable for all our experiments.
 
 \subsection{Our Improved SA Approach}
 \label{sec:our-improved-sa}
 
-We made some changes to the original algorithm and associated heuristics as
-prescribed by Orsilla et al~\cite{hors06}. The reasons behind these changes are two folds.
+We made novel changes to the aforementioned algorithm and associated
+heuristics as prescribed by Orsilla et al~\cite{hors06}. The reasons
+behind these changes are two fold.
+
 \begin{itemize}
-\item To suit the heterogeneous nature of the resources
-\item To improve the annealing schedule and hence the final solution
+\item We need to suit map the task graph onto a heterogeneous execution
+  architecture.
+
+\item We need to improve the annealing schedule in order to obtain
+  better application latencies.
+
+\item We need to improve the run-time of the SA algorithm to scale to
+  large processor architectures.
 \end{itemize}
 
-Some of the changes are as follows,
+Our list of changes to the standard SA heuristic are as follows:
 
 \begin{itemize}
 
@@ -194,33 +210,34 @@ PEs $\in V_r$, to be all tasks from $V_t$ mapped onto
 some random PE $j \in V_r$. This is a good idea because we have observed that
 this puts tightly coupled tasks, i.e. tasks that communicate heavily, on the
 same PE and moving them onto different PEs would incur more communication
-costs and would thus lead to a bad state.
+costs and would thus lead to increased application latency.
 
 \item The \textit{OBJECTIVE\_FUNCTION} evaluates the latency of execution of
 the mapping $\zeta$ on $V_r$ as described earlier in
 Section~\ref{sec:relat-notat-form}. 
 
-\item The \mbox{\textit{NEXT\_STATE($\zeta_{current}$, $T_{current}$)}} function
-describes how we are going to move to a new state. This is one of the most
-important contributions of this paper. We make this movement to a new state, a
-function of the current state and current temperature $\zeta_{current}$,
-$\mathcal{T}_{current}$. Consider a
-given mapping $\zeta_\mathcal{M}$ which maps $V_t$ to $V_r$. When the
-temperature is high, we allow a lot of the elements in this mapping of the form
-$r_i
-\leftarrow t_k$ to change to mappings of the form $r_j \leftarrow t_k$. This
-means we allow a lot of tasks to migrate to different PEs when the temperature
-is high. As the temperature decreases, we restrict the motion of these tasks,
-meaning we allow only fewer tasks to migrate to different PEs and enforce a
-condition on the rest of the tasks to stay at the PE they are currently in. It
-should also be kept in mind that during every iteration, the tasks that are
-allowed to move are selected at random while the number of tasks that have to be
-moved will be guided by the temperature. The reason for doing this is two fold,
+\item The \mbox{\textit{NEXT\_STATE ($\zeta_{current}$, $T_{current}$)}}
+  function describes how we are going to move to a new state. This is
+  one of the \underline{most important contribution} of this paper. We
+  make this movement to a new state, a function of the current state and
+  current temperature $\zeta_{current}$,
+  $\mathcal{T}_{current}$. Consider a given mapping $\zeta_\mathcal{M}$
+  which maps $V_t$ to $V_r$. When the temperature is high, we allow a
+  lot of the elements in this mapping of the form $r_i \leftarrow t_k$
+  to change to mappings of the form $r_j \leftarrow t_k$. This means we
+  allow a lot of tasks to migrate to different PEs when the temperature
+  is high. As the temperature decreases, we restrict the motion of these
+  tasks, meaning we allow only fewer tasks to migrate to different PEs
+  and enforce a condition on the rest of the tasks to stay at the PE
+  they are currently in. It should also be kept in mind that during
+  every iteration, the tasks that are allowed to move are selected at
+  random while the number of tasks that have to be moved will be guided
+  by the temperature. The reason for doing this is two fold,
 \begin{itemize}
 \item We want to explore different corners of the search space when the
-temperature is high
-\item As the temperature drops, we want to reduce our search space to the
-current best solutions neighbourhood
+  temperature is high.
+\item As the temperature drops, we want to reduce our search space to
+  the current best solutions neighborhood.
 \end{itemize}
 This can be thought of as doing a global state space exploration at the
 beginning stages of the optimization, i.e. when temperature is high, as
@@ -231,10 +248,11 @@ results in a localized search when the temperature drops. We found this
 to be quite effective in terms of finding effective mappings as our
 results from Section~\ref{sec:results} shows.
 
-\item The \textit{NEXT\_TEMPERATURE} function, which is defined as follows, is
-also changed to prevent multiple mapping iterations in one temperature level. We
-want to avoid this as we do not want to spend a majority of the annealing
-schedule searching for global optimums. 
+\item The \textit{NEXT\_TEMPERATURE} function, which is defined in
+  Equation~(\ref{eq:3}), is also changed to prevent multiple mapping
+  iterations in one temperature level. We want to avoid this as we do
+  not want to spend a majority of the annealing schedule searching for
+  global optimums.
 
 \begin{equation}
   \textit{NEXT\_TEMPERATURE}(\mathcal{T}_0, i) =
@@ -252,17 +270,18 @@ clearly shows how the temperature drops quicker for smaller values of
 $q$ and slower for larger values. Even though we removed the concept of
 multiple number of mapping iterations per temperature level from the
 previous algorithm, we retained the $q$ parameter as we wanted to
-control how quickly/slowly the temperature must drop.
+control how quickly or slowly the temperature must drop.
 
-\item We use the value for the initial and final temperature for the annealing
-schedule from the paper written by Orsilla et al.~\cite{hors06}. Since the
-objective of this article is to map heterogeneous applications onto
-heterogeneous architectures, these heuristics have to be changed as well. We 
-calculate the fastest and slowest procesorss by multiplying each processor's
-capabilities ($W^r_0(i) * W^r_1(i)$) and sorting them. 
+\item We use the value for the initial and final temperature for the
+  annealing schedule from the paper written by Orsilla et
+  al.~\cite{hors06}. Since the objective of this article is to map
+  heterogeneous applications onto heterogeneous architectures, these
+  heuristics have to be changed as well. We calculate the fastest and
+  slowest processors by multiplying each processor's capabilities
+  ($W^r_0(i) * W^r_1(i)$) and sorting them.
 
-\item The rest of the parameters remain the same as~\cite{hors06} and are subject to future work
-for changes if necessary.
+% \item The rest of the parameters remain the same as~\cite{hors06} and are subject to future work
+% for changes if necessary.
 
 \end{itemize} 
 
