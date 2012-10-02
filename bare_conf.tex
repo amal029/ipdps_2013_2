@@ -428,28 +428,49 @@ line 4: Email: name@xyz.com}
 
 
 \begin{abstract}
-
-  In this paper we present a simulated annealing based partitioning
-  technique for heterogeneous applications onto heterogeneous processing
+  
+  We present a simulated annealing based partitioning technique for
+  heterogeneous applications onto heterogeneous processing
   architectures. A heterogeneous application is one where tasks differ
   in the amount of computation and communication that they perform. A
   heterogeneous architecture on the other hand, is a composition of
   processing elements that differ in their capabilities to perform
   computation and communication. Such applications are very common and
   heterogeneous architectures are becoming more common in today's
-  environment. Task partitioning onto homogeneous architectures in-order
-  to extract parallelism, is a known NP-hard problem. Heterogeneity
-  exponentially complicates the aforementioned partitioning problem. A
-  number of heuristic approaches have been proposed for heterogeneous
-  partitioning, some using simulated annealing, to overcome the NP-hard
-  nature of the problem. The novelty of our approach is two fold: (1) we
-  go a step further than the currently proposed scientific literature,
-  considering heterogeneity at levels of: task parallelism, data
-  parallelism, and communication. (2) We quantitatively show an
-  improvement in the simulated annealing algorithm, both in terms of
-  runtime and resulting application latencies, provided the neighbors in
-  the simulated annealing strategy are guided with the temperature
-  rather than being selected randomly as is the established case.
+  environment. Task partitioning onto homogeneous architectures to
+  extract parallelism, is a known NP-hard problem.  Heterogeneity
+  greatly complicates the aforementioned partitioning problem. A number
+  of heuristic approaches have been proposed, some using simulated
+  annealing.  The novelty of our approach is two fold: (1) we go a step
+  further than the currently proposed scientific literature, considering
+  heterogeneity at levels of: task parallelism, data parallelism, and
+  communication. (2) We present a novel algorithm that uses simulated
+  annealing to find better partitions in the presence of heterogeneous
+  architectures, data parallel execution units, and significant data
+  communication costs.  Our experimental results show that our approach
+  gives significantly better results than existing approaches.
+
+  % In this paper we present a simulated annealing based partitioning
+  % technique for heterogeneous applications onto heterogeneous processing
+  % architectures. A heterogeneous application is one where tasks differ
+  % in the amount of computation and communication that they perform. A
+  % heterogeneous architecture on the other hand, is a composition of
+  % processing elements that differ in their capabilities to perform
+  % computation and communication. Such applications are very common and
+  % heterogeneous architectures are becoming more common in today's
+  % environment. Task partitioning onto homogeneous architectures in-order
+  % to extract parallelism, is a known NP-hard problem. Heterogeneity
+  % exponentially complicates the aforementioned partitioning problem. A
+  % number of heuristic approaches have been proposed for heterogeneous
+  % partitioning, some using simulated annealing, to overcome the NP-hard
+  % nature of the problem. The novelty of our approach is two fold: (1) we
+  % go a step further than the currently proposed scientific literature,
+  % considering heterogeneity at levels of: task parallelism, data
+  % parallelism, and communication. (2) We quantitatively show an
+  % improvement in the simulated annealing algorithm, both in terms of
+  % runtime and resulting application latencies, provided the neighbors in
+  % the simulated annealing strategy are guided with the temperature
+  % rather than being selected randomly as is the established case.
 
 
 \end{abstract}
@@ -519,15 +540,14 @@ Simulated annealing, partitioning, heterogeneous architectures.
 % of memory transfers between differing processing elements, especially
 % hosts and devices connecting CPUs and GPUs.
 
-There are a plethora of different optimization techniques that have been
+There is a plethora of different optimization techniques that have been
 proposed for extracting data-parallelism from
 loops~\cite{smuc97,mgri98}. In case of task-parallelism the automatic
 extraction of parallelism has been recently proposed using OpenMP using
 the Polytope model~\cite{mgri98}, while the streaming community
 (repsenting CUDA~\cite{jsan10} and OpenCL~\cite{opencl08}) has its own
 optimization techniques~\cite{mgor06}. Moreover, the design of the
-application heavily influences the potential for parallelism
-extraction. 
+application heavily influences the potential for parallelism extraction.
 
 
 \begin{figure}[h!]
@@ -619,7 +639,19 @@ annealing approach to solving this problem. Our \textbf{key
   times.
 \end{itemize}
 
-The rest of the paper is arranges as follows....
+The rest of the paper is arranged as
+follows. Section~\ref{sec:related-work} describes the related work and
+positions our work in comparison to the currently available
+techniques. Section~\ref{sec:relat-notat-form}, formalizes the problem
+statment. Section~\ref{sec:gener-task-graph}
+and~\ref{sec:gener-reso-graph} together describe the generation of the
+task from the compiler and the setup of the underlying exectuion
+architecture, respectively. Section~\ref{sec:simulated-annealing}, first
+describes the established \textit{Simulated Annealing} approach, and
+then explains our contributions and improvements to this appraoch. Next,
+we perform a number of experiments to quantitatively validate our SA
+approach in Section~\ref{sec:k-way-graph}. Finally, we conclude in
+Section~\ref{sec:conclusion}.
 
 \section{Related Work}
 \label{sec:related-work}
@@ -714,7 +746,31 @@ search space.
 \input{experiments}
 
 \section{Conclusion}
+\label{sec:conclusion}
 
+In this paper we have decsribed a novel \textit{Simulated Annealing}
+(SA) heuristic for mapping heterogeneous applications onto heterogeneous
+execution architectures. A heterogeneous application is one where
+different parts of the application differ in the amout of task and data
+parallelism they exhibit. Moreover, each of these parts also requires
+differing amount of data to be processed or computed. We partition and
+schedule such applications onto heterogeneous architectures with
+differing compute costs, vector lengths, and communication
+bandwidths. To our knowledge we are the first to utilize SA for
+extracting multiple different kinds of parallelism (task and data)
+directly from compilers onto heterogeneous architectures. Our SA
+framework complements other auto-tuning compiler techniques.
+
+Our SA approach guides the movement of the partition using temerature
+itself, as opposed to others, where such movement occurs
+randomly. Moreover, a guided movement allows for faster fall in
+temperature, resulting in faster runtimes for the SA algorithm making it
+scalable to large number of processor cores. Experimental results show
+that our modifications to standard SA out perform the standard SA
+technique by an order of magnitude. We also compared our SA technique
+with the well established K-way graph partitioning and heterogeneous bin
+packing heuristics. In both these cases, our SA approach out performs
+the other two by a more than 54\% on average.
 
 % \section*{Acknowledgment}
 
