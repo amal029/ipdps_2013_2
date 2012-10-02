@@ -87,13 +87,13 @@ Each ellipse in the task-graph is connected to a store. Stores are
 represented as boxes in the task-graph. Stores have their instruction
 count and vector length count set to 0. Every statement depending upon
 its vector length requires different amount of data to carry out the
-computation. This data needs to be transfered from the store (the main
+computation. This data needs to be transferred from the store (the main
 memory in most cases) to the caches where the task nodes are going to be
-executed. We represent the amount of data to be transfered in the
+executed. We represent the amount of data to be transferred in the
 task-graph in bits. For example, node $S1_1$ with a smaller vector
-length of 16, requires 2.2KB of data to be transfered to its cache for
+length of 16, requires 2.2KB of data to be transferred to its cache for
 computation. Node S3 on the other hand, being non-vectorized requires
-15KB of data to be transfered to its cache.
+15KB of data to be transferred to its cache.
 
 Finally, the task graph also consists of dependence edges. In
 Figure~\ref{fig:5b}, the dependence edges are marked with the dashed

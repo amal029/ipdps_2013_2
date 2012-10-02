@@ -106,7 +106,7 @@ into it. % In the mapping problem setting, this becomes a double edged
 % application-tasks $w^t_1(i)$ and vector capability of the resources
 % $W^r_1(i)$).
 
-The post pass in \textit{A-BFD} chooses every bin that has atleast one
+The post pass in \textit{A-BFD} chooses every bin that has at least one
 item allocated to it and tries to find an empty bin, that has a higher
 or equal volume than the allocated volume on the chosen bin but also has
 a lower cost. If it finds such an empty bin, then it transfers all the
@@ -202,7 +202,7 @@ generator.
 We chose 5 applications: binomial option pricing (a financial
 derivatives application), 2-dimensional convolution (for image
 processing), gram Schmidt linear algebra kernel, 2-dimensional
-Gauss-seildel stencil computations, and finally our motivating example
+Gauss-Seidel stencil computations, and finally our motivating example
 itself the 2-dimensional Jacobi stencil computation. Next for these 5
 applications, we varied the vector strip from 10 to 50, which resulted
 in graphs varying from around 50 to 5000 nodes and with 23 to 12,000
@@ -294,23 +294,23 @@ technique compared to K-way graph partitioning.
 \begin{figure*}[t!]
   \centering
   \subfigure[Binomial Option Pricing]{
-    \includegraphics[angle=0, scale=0.5]{./figures/bin_metis_surface}
+    \includegraphics[angle=0, scale=0.6]{./figures/bin_metis_surface}
     \label{fig:bin1metis}
   }
   \subfigure[2 Dimensional Convolution]{
-    \includegraphics[angle=0, scale=0.5]{./figures/conv_metis_surface}
+    \includegraphics[angle=0, scale=0.6]{./figures/conv_metis_surface}
     \label{fig:conv1metis}
   }
-  \subfigure[Gram schmidtt linear-algebra kernel]{
-    \includegraphics[angle=0, scale=0.5]{./figures/gram_metis_surface}
+  \subfigure[Gram Schmidt linear-algebra kernel]{
+    \includegraphics[angle=0, scale=0.6]{./figures/gram_metis_surface}
     \label{fig:gram1metis}
   }
   \subfigure[2 Dimensional Seidel stencil computation]{
-    \includegraphics[angle=0, scale=0.5]{./figures/sei_metis_surface}
+    \includegraphics[angle=0, scale=0.6]{./figures/sei_metis_surface}
     \label{fig:sei1metis}
   }
   \subfigure[2 Dimensional Jacobi stencil computation]{
-    \includegraphics[angle=0, scale=0.5]{./figures/jac_metis_surface}
+    \includegraphics[angle=0, scale=0.6]{./figures/jac_metis_surface}
     \label{fig:jacl1metis}
   }
   \caption{Comparison of application latencies: Our SA approach Vs K-way
@@ -435,15 +435,15 @@ Figure~\ref{fig:ho} are highlighted in Table~\ref{tab:3}.
 \begin{figure*}[t!]
   % \centering
   \subfigure[2 Dimensional Convolution]{
-    \includegraphics[angle=0, scale=0.5]{./figures/conv_hbp_surface}
+    \includegraphics[angle=0, scale=0.6]{./figures/conv_hbp_surface}
     \label{fig:conv1ho}
   }
-  \subfigure[Gram schmidtt linear-algebra kernel]{
-    \includegraphics[angle=0, scale=0.5]{./figures/gram_hbp_surface}
+  \subfigure[Gram Schmidt linear-algebra kernel]{
+    \includegraphics[angle=0, scale=0.6]{./figures/gram_hbp_surface}
     \label{fig:gram1ho}
   }
   \subfigure[2 Dimensional Jacobi stencil computation]{
-    \includegraphics[angle=0, scale=0.5]{./figures/jac_hbp_surface}
+    \includegraphics[angle=0, scale=0.6]{./figures/jac_hbp_surface}
     \label{fig:jacl1ho}
   }
   \caption{Comparison of execution times of ``Our SA technique" and
@@ -464,7 +464,7 @@ for Figure~\ref{fig:stdsa} are shown in Table~\ref{tab:4}.
 The reasons for this are two fold,
 \begin{itemize}
 \item We change the annealing schedule such that the search exploration is
-global initially, i.e. high temperaures, and it becomes local to the current
+global initially, i.e. high temperatures, and it becomes local to the current
 best solution as temperature drops.
 \item We also get a better result because we do not permit multiple mapping
 iterations per temperature level which prevents a higher percentage of tasks
@@ -480,23 +480,23 @@ moving to random PEs.
 \begin{figure*}[h!]
   \centering
   \subfigure[Binomial Option Pricing]{
-    \includegraphics[angle=0, scale=0.5]{./figures/bin_random_surface}
+    \includegraphics[angle=0, scale=0.67]{./figures/bin_random_surface}
     \label{fig:bin1random}
   }
   \subfigure[2 Dimensional Convolution]{
-    \includegraphics[angle=0, scale=0.5]{./figures/conv_random_surface}
+    \includegraphics[angle=0, scale=0.67]{./figures/conv_random_surface}
     \label{fig:conv1random}
   }
-  \subfigure[Gram schmidtt linear-algebra kernel]{
-    \includegraphics[angle=0, scale=0.5]{./figures/gram_random_surface}
+  \subfigure[Gram Schmidt linear-algebra kernel]{
+    \includegraphics[angle=0, scale=0.67]{./figures/gram_random_surface}
     \label{fig:gram1random}
   }
   \subfigure[2 Dimensional Seidel stencil computation]{
-    \includegraphics[angle=0, scale=0.5]{./figures/sei_random_surface}
+    \includegraphics[angle=0, scale=0.67]{./figures/sei_random_surface}
     \label{fig:sei1random}
   }
   \subfigure[2 Dimensional Jacobi stencil computation]{
-    \includegraphics[angle=0, scale=0.5]{./figures/jac_random_surface}
+    \includegraphics[angle=0, scale=0.67]{./figures/jac_random_surface}
     \label{fig:jacl1random}
   }
   \caption{Comparison of application latencies: Our SA approach vs

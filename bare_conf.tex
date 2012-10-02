@@ -543,7 +543,7 @@ proposed for extracting data-parallelism from
 loops~\cite{smuc97,mgri98}. In case of task-parallelism the automatic
 extraction of parallelism has been recently proposed using OpenMP using
 the Polytope model~\cite{mgri98}, while the streaming community
-(repsenting CUDA~\cite{jsan10} and OpenCL~\cite{opencl08}) has its own
+(representing CUDA~\cite{jsan10} and OpenCL~\cite{opencl08}) has its own
 optimization techniques~\cite{mgor06}. Moreover, the design of the
 application heavily influences the potential for parallelism extraction.
 
@@ -661,12 +661,12 @@ The rest of the paper is arranged as
 follows. Section~\ref{sec:related-work} describes the related work and
 positions our work in comparison to the currently available
 techniques. Section~\ref{sec:relat-notat-form}, formalizes the problem
-statment. Section~\ref{sec:gener-task-graph}
+statement. Section~\ref{sec:gener-task-graph}
 and~\ref{sec:gener-reso-graph} together describe the generation of the
-task from the compiler and the setup of the underlying exectuion
+task from the compiler and the setup of the underlying execution
 architecture, respectively. Section~\ref{sec:simulated-annealing}, first
 describes the established \textit{Simulated Annealing} approach, and
-then explains our contributions and improvements to this appraoch. Next,
+then explains our contributions and improvements to this approach. Next,
 we perform a number of experiments to quantitatively validate our SA
 approach in Section~\ref{sec:k-way-graph}. Finally, we conclude in
 Section~\ref{sec:conclusion}.
@@ -676,7 +676,7 @@ Section~\ref{sec:conclusion}.
 
 There has been tremendous advances in compiler design for loop
 optimizations~\cite{ubon08,atiw09,tkis00}. The tiles of loop sizes, the
-unroll factor, etc, have been studied using a plethora of heuristic
+unroll factor, etc., have been studied using a plethora of heuristic
 techniques, including simulated annealing. Tiwari et.al.~\cite{atiw09},
 describe an auto-tuning compiler, which iteratively solves the loop
 tiling problem. They along with others~\cite{tkis00} have also looked at
@@ -775,7 +775,7 @@ differing amount of data to be processed or computed. We partition and
 schedule such applications onto heterogeneous architectures with
 differing compute costs, vector lengths, and communication
 bandwidths. To our knowledge we are the first to utilize SA for
-extracting multiple different kinds of parallelism (task and data)
+extracting different kinds of parallelism (task and data)
 directly from compilers onto heterogeneous architectures. Our SA
 framework complements other auto-tuning compiler techniques.
 
@@ -787,11 +787,11 @@ scalable to large number of processor cores. Experimental results show
 that our SA approach out performs the standard SA technique in 84\% of
 the instances. Moreover, for all these instances it is orders magnitude
 better. We also compared our SA technique with the well established
-K-way graph partitioning and heterogeneous bin packing heuristics. In
-both these cases, our SA approach out performs the other in 54\% of the
-instances.
+K-way graph partitioning and heterogeneous bin packing heuristics. Our SA
+approach out performs the former in 54\% of the instances and the latter in 92\%
+of the instances.
 
-\section*{Acknowledgment}
+\section*{Acknowledgement}
 This work is partly funded by the IRCSET Enterprise Partnership Scheme in
 collaboration with IBM Research, Ireland.
 

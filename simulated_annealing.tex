@@ -6,7 +6,7 @@ for finding the global optimum of a given function,
 $\mathcal{F}: \mathbb{R} \rightarrow \mathbb{R}$, which has a large
 search space.  Simulated Annealing in most of the cases is cheaper than
 exhaustive enumeration, which is exhaustively listing the entire search
-space. Since it is a monte carlo method it will always terminate and the
+space. Since it is a Monte Carlo method it will always terminate and the
 solution need not be the most optimal but in general considered to be a
 good approximation of the optimum.
 
@@ -63,7 +63,7 @@ always accepts moves to a better solution, determined by evaluating an
 probability that changes with temperature. Initially, when the temperature is
 high, the algorithm is more tolerable and accepts moves to worse states with a
 higher probability. As the temperature falls down, this probability decreases
-and the alogrithm is less tolerant towards solutions with a worse value for the
+and the algorithm is less tolerant towards solutions with a worse value for the
 objective function.
 
 This is the reason why SA is not a purely greedy algorithm as it accepts
@@ -118,7 +118,7 @@ $\mathcal{T}_0$, $\mathcal{T}_f$}
   }
 \end{algorithm}
 
-Algorithm~\ref{algo:SA} represents the pseudocode for the novel
+Algorithm~\ref{algo:SA} represents the pseudo-code for the novel
 algorithm presented by ~\cite{hors06} which maps applications onto
 Multiprocessor SoCs.  The \textit{OBJECTIVE\_FUNCTION} evaluates
 execution time of a specific mapping by calling the
