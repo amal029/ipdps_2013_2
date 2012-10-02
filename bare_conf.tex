@@ -448,7 +448,8 @@ line 4: Email: name@xyz.com}
   annealing to find better partitions in the presence of heterogeneous
   architectures, data parallel execution units, and significant data
   communication costs.  Our experimental results show that our approach
-  gives significantly better results than existing approaches.
+  is on average 84\% better compared to standard simulated annealing.
+  % gives significantly better results than existing approaches.
 
   % In this paper we present a simulated annealing based partitioning
   % technique for heterogeneous applications onto heterogeneous processing
@@ -748,10 +749,10 @@ search space.
 \section{Conclusion}
 \label{sec:conclusion}
 
-In this paper we have decsribed a novel \textit{Simulated Annealing}
+In this paper we have described a novel \textit{Simulated Annealing}
 (SA) heuristic for mapping heterogeneous applications onto heterogeneous
 execution architectures. A heterogeneous application is one where
-different parts of the application differ in the amout of task and data
+different parts of the application differ in the amount of task and data
 parallelism they exhibit. Moreover, each of these parts also requires
 differing amount of data to be processed or computed. We partition and
 schedule such applications onto heterogeneous architectures with
@@ -761,16 +762,16 @@ extracting multiple different kinds of parallelism (task and data)
 directly from compilers onto heterogeneous architectures. Our SA
 framework complements other auto-tuning compiler techniques.
 
-Our SA approach guides the movement of the partition using temerature
+Our SA approach guides the movement of the partition using temperature
 itself, as opposed to others, where such movement occurs
 randomly. Moreover, a guided movement allows for faster fall in
-temperature, resulting in faster runtimes for the SA algorithm making it
+temperature, resulting in faster runtime for the SA algorithm, making it
 scalable to large number of processor cores. Experimental results show
-that our modifications to standard SA out perform the standard SA
-technique by an order of magnitude. We also compared our SA technique
-with the well established K-way graph partitioning and heterogeneous bin
-packing heuristics. In both these cases, our SA approach out performs
-the other two by a more than 54\% on average.
+that our SA approach out performs the standard SA technique by 84 \% on
+average. We also compared our SA technique with the well established
+K-way graph partitioning and heterogeneous bin packing heuristics. In
+both these cases, our SA approach out performs the other two by a more
+than 54\% on average.
 
 % \section*{Acknowledgment}
 
