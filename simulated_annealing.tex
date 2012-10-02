@@ -82,7 +82,8 @@ Sections~\ref{sec:conventional-SA, sec:our-improved-sa}.
     \caption{$Simulated\_Annealing(\zeta_0, \mathcal{T}_0)$}
     \label{algo:SA}
     % \DontPrintSemicolon
-    \KwIn{Initial Mapping $\zeta_0$ and Starting Temperature $\mathcal{T}_0$}
+    \KwIn{Initial Mapping $\zeta_0$ and Starting and Final Temperatures
+$\mathcal{T}_0$, $\mathcal{T}_f$}
     \KwOut{Best Mapping $\zeta_{best}$}
     $\zeta_{current} \leftarrow \zeta_0$ \;
     $C_{current} \leftarrow OBJECTIVE\_FUNCTION(\zeta_0)$ \;
@@ -118,11 +119,11 @@ Sections~\ref{sec:conventional-SA, sec:our-improved-sa}.
 
 Algorithm~\ref{algo:SA} represents the pseudocode for the novel algorithm
 presented by ~\cite{hors06} which maps applications onto Multiprocessor SoCs.
-This paper showed  The \textit{OBJECTIVE\_FUNCTION} evaluates execution time of a
+The \textit{OBJECTIVE\_FUNCTION} evaluates execution time of a
 specific mapping by calling the scheduler. $\zeta_0, \zeta_{current}$ and
-$\mathcal{T}_0, \mathcal{T}_{current}$ are the intial and current mapping and
+$\mathcal{T}_0, \mathcal{T}_{current}$ are the initial and current mapping and
 temperatures respectively. The \textit{NEXT\_STATE} function moves a random task
-to a random PE different than the original PE.The \textit{NEXT\_TEMPERATURE} is
+to a random PE different than the original PE. \textit{NEXT\_TEMPERATURE} is
 chosen so that the annealing schedule is proportional to the number of tasks and
 resources and is given by,
 
@@ -132,7 +133,7 @@ resources and is given by,
 \end{equation}
 
 where q is the proprtion of temperature preserved in each temperature level. In
-their paper, q was set as $0.95$. L is the number of iterations in one
+their paper, q was set as $0.95$ and L is the number of iterations in one
 temperature level. They achieve multiple iterations in one temperature level by
 using the \texttt{floor} function, since $\lfloor \frac{i}{L} \rfloor$ moves to
 a new value only at every integral multiple of $L$.
@@ -142,7 +143,7 @@ L = |V_t|*(|V_r| - 1)
 \end{equation}
 
 They, also modify the \textit{ACCEPTANCE\_PROBABILITY} from its traditional form
-of $\frac{1}{1+exp(\frac{\Delta C}{\mathcal{T}})}$ to a form to adapt
+of $\frac{1}{1+exp(\frac{\Delta C}{\mathcal{T}})}$ to adapt
 automatically to different cost function value ranges and graphs with different
 task execution times. This is done by normalizing the change in cost, $\Delta
 C$,
@@ -177,7 +178,7 @@ all tasks $\in V_t$ on the slowest PE $r_{slowest} \in V_r$. % In both the
 \label{sec:our-improved-sa}
 
 We made some changes to the original algorithm and associated heuristics as
-prescribed by Heikki et al~\cite{hors06}. The reasons behind these changes are two folds.
+prescribed by Orsilla et al~\cite{hors06}. The reasons behind these changes are two folds.
 \begin{itemize}
 \item To suit the heterogeneous nature of the resources
 \item To improve the annealing schedule and hence the final solution
@@ -189,10 +190,10 @@ Some of the changes are as follows,
 
 \item We begin by choosing some initial starting point for our state space exploration, which from
 the mapping problem standpoint is some initial mapping of tasks from $V_t$ to
-PEs $V_r$, to be all tasks from $V_t$ mapped onto
+PEs $\in V_r$, to be all tasks from $V_t$ mapped onto
 some random PE $j \in V_r$. This is a good idea because we have observed that
 this puts tightly coupled tasks, i.e. tasks that communicate heavily, on the
-same PE since moving them onto different PEs would incur more communication
+same PE and moving them onto different PEs would incur more communication
 costs and would thus lead to a bad state.
 
 \item The \textit{OBJECTIVE\_FUNCTION} evaluates the latency of execution of
@@ -201,18 +202,20 @@ Section~\ref{sec:relat-notat-form}.
 
 \item The \mbox{\textit{NEXT\_STATE($\zeta_{current}$, $T_{current}$)}} function
 describes how we are going to move to a new state. This is one of the most
-important contributions of this paper. We make this movement to a new state a
-function of the current temperature $\mathcal{T}_{current}$ as well. Consider a
+important contributions of this paper. We make this movement to a new state, a
+function of the current state and current temperature $\zeta_{current}$,
+$\mathcal{T}_{current}$. Consider a
 given mapping $\zeta_\mathcal{M}$ which maps $V_t$ to $V_r$. When the
-temperature is high, we allow a lot of elements in this mapping of the form $v_i
-\leftarrow v_j$ to change to mappings of the form $v_i \leftarrow v_k$. This
+temperature is high, we allow a lot of the elements in this mapping of the form
+$r_i
+\leftarrow t_k$ to change to mappings of the form $r_j \leftarrow t_k$. This
 means we allow a lot of tasks to migrate to different PEs when the temperature
 is high. As the temperature decreases, we restrict the motion of these tasks,
 meaning we allow only fewer tasks to migrate to different PEs and enforce a
 condition on the rest of the tasks to stay at the PE they are currently in. It
 should also be kept in mind that during every iteration, the tasks that are
 allowed to move are selected at random while the number of tasks that have to be
-moved will be guided by temperature. The reason for doing this is two fold,
+moved will be guided by the temperature. The reason for doing this is two fold,
 \begin{itemize}
 \item We want to explore different corners of the search space when the
 temperature is high
@@ -222,7 +225,7 @@ current best solutions neighbourhood
 This can be thought of as doing a global state space exploration at the
 beginning stages of the optimization, i.e. when temperature is high, as
 we want to get a sense of which neighbourhood gives a good result. Once
-we find a good negihbourhood we start to reduce our radius of search by
+we find a good neighbourhood we start to reduce our radius of search by
 allowing only limited number of tasks to move to different PEs. This
 results in a localized search when the temperature drops. We found this
 to be quite effective in terms of finding effective mappings as our
@@ -252,7 +255,7 @@ previous algorithm, we retained the $q$ parameter as we wanted to
 control how quickly/slowly the temperature must drop.
 
 \item We use the value for the initial and final temperature for the annealing
-schedule from the paper written by Heikki et al.~\cite{hors06}. Since the
+schedule from the paper written by Orsilla et al.~\cite{hors06}. Since the
 objective of this article is to map heterogeneous applications onto
 heterogeneous architectures, these heuristics have to be changed as well. We 
 calculate the fastest and slowest procesorss by multiplying each processor's

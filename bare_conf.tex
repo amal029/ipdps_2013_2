@@ -622,24 +622,45 @@ for (int i=0;i<M;++i)
   \label{fig:3}
 \end{figure}
 
-Different parts of the applications can exhibit differing task and
-data-parallel potentials. Furthermore, the amount of communication
-between these differing parts might vary itself. Given a heterogeneous
-architecture consisting of processing elements with varying vector
-lengths, varying processing capacity and connected via differing
-bandwidths/, how does one compile or even design the program to actually
-utilize the underlying hardware properly? This is the question we are
-trying to answer in this paper. We provide an improved simulated
-annealing approach to solve this problem. Our \textbf{key contributions}
-in this paper are:
+Different parts of the applications can exhibit different amounts of task and
+data-parallelism and different patterns of communication. Furthermore, parallel
+computer architectures are 
+increasingly heterogeneous. For example modern parallel architectures
+may consists of a mix of CPUs, graphics processing units (GPUs) and
+other types of processors. There different types of processors exhibit
+different levels of computing power, but also perform well on
+different \textit{types} of code. For example, GPUs typically provide
+a lot of vector SIMD parallelism. This greatly complicates the problem
+of mapping the application to the parallel architecture.  In addition,
+communication costs between processors can play a significant role in
+total execution time, especially for communicating between CPUs and
+GPUs that may not share memory.
+
+Given a heterogeneous architecture consisting of processing elements
+with varying vector lengths, varying processing capacity and connected
+via differing bandwidths/latencies, how does one compile or even
+design the program to utilize the underlying hardware properly? In
+this paper we address this problem using a novel algorithm based on
+simulated annealing. Simulated annealing has already been shown to be
+extremely effective for homogeneous architectures~\cite{hors06}. In
+this paper we present a simulated annealing-based algorithm that
+solves the problem of mapping applications to heterogeneous
+architectures with varying levels of SIMD parallelism and
+heterogeneous communication costs. Our \textbf{key contributions} in
+this paper are:
+
 \begin{itemize}
 \item A Simulated annealing approach to tuning programs for task and
   data parallelism across heterogeneous multi-core architectures.
-\item An improvement in the simulated annealing algorithm, which
-  empirically shows that the resulting partitions have smaller execution
-  times.
+\item Mechanisms to exploit data parallelism within tasks and map
+  the parallelism to processing elements with SIMD capacity.
+\item An experimental evaluation of our approach, comparing it with
+  three establish approaches: $k$-way partition, heterogeneous bin
+  packing, and existing simulated annealing-based approaches.
+\item Experimental results showing that our approach performs well in
+  practice, and in general produces superior results compared to the
+  existing approaches.
 \end{itemize}
-
 The rest of the paper is arranged as
 follows. Section~\ref{sec:related-work} describes the related work and
 positions our work in comparison to the currently available
@@ -677,9 +698,9 @@ distribution~\cite{ssan05,adou04,pcar09} onto heterogeneous processing
 architecture. The streaming community especially recognizes the need to
 extract both task and data-parallelism (which corresponds to loop level
 parallelism)~\cite{mgor06}. Knowing that the task partitioning problem
-is known NP-hard, the researchers take a heuristic approach. However,
+is NP-hard, researchers take a heuristic approach. However,
 yet again, the streaming community seems to not make a connection
-between the polyhedral compiler optimization community and itself. In
+to the polyhedral compiler optimization community. In
 this paper we bridge the gap between the two optimization techniques,
 thereby leading to a powerful optimization framework, which can be used
 by compiler writers or application designers to explore a heterogeneous
